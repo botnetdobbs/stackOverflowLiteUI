@@ -62,6 +62,36 @@ header a , header a:hover, header a:visited {
     box-sizing: border-box;
 }
 
+/* Buttons */
+.button {
+    padding-top: 10px;
+    padding-right: 20px;
+    padding-bottom: 10px;
+    padding-left: 20px;
+    /* padding: 10px, 20px; */
+    background-color: #62696ba4;
+    border: none;
+    color: #ffffff;
+    border-radius: 7px;
+}
+
+button a , button a:hover, button a:visited {
+    color: #ffffff;
+}
+
+.button:hover {
+    background-color: #4c5052a4;
+}
+
+.button-primary {
+    background-color: rgb(22, 104, 197);
+}
+
+.button-primary:hover {
+    background-color: rgb(33, 90, 150);
+}
+
+
 /* Links */
 a {
     text-decoration: none;

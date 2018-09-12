@@ -21,3 +21,21 @@
     color: #0ea31ad7;
     padding-right: 30px;
 }
+
+/*Forms*/
+.my-form {
+    padding: 20px;
+}
+
+.my-form .form-group {
+    padding-bottom: 15px;
+}
+
+.my-form label {
+    display: block;
+}
+
+.my-form input, .my-form textarea {
+    padding: 8px;
+    width: 80%;
+}
