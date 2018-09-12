@@ -6,7 +6,7 @@ document.addEventListener('DOMContentLoaded', () => {
     myApi.getQuestions()
         .then(data => {
             if (data.message) {
-                ui.loadQuestionsNotFound(data.message);
+                ui.loadNotFound(data.message);
             } else {
                 ui.loadQuestions(data);
             }
@@ -27,11 +27,12 @@ function getaQuestion(e) {
     //Use event delegation
     if (target.parentElement.className === 'description') {
         // const url = target.parentElement.previousElementSibling.textContent;
-        myApi.getQuestion(target.getAttribute('href'))
+        myApi.getQuestion('http://127.0.0.1:5000/api/v2/questions/7')
             .then(data => {
                 if (data.question.message) {
                     //Question not found
                     console.log(data.question.message);
+                    return ui.loadNotFound(data.question.message);
                 } else {
                     //Question/s found
                     // console.log(data.question);

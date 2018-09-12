@@ -1,9 +1,11 @@
 class UI extends Stackoverflowapi {
     constructor() {
         super();
+        this.mainWrapper = document.getElementById('main');
         this.questionwrapper = document.getElementById('all-questions');
         this.answerWrapper = document.getElementById('answers');
         this.formwrapper = document.getElementById('form-wrapper');
+        
     }
 
     //Render the questions
@@ -76,5 +78,22 @@ class UI extends Stackoverflowapi {
                 </form>`;
         //Display the form
         this.formwrapper.innerHTML = output;
+    }
+
+    //Render not found message
+    loadNotFound(message) {
+        //Create a div element
+        const div = document.createElement('div');
+        //Add a class to the div
+        div.className = 'question-not-found';
+        //Add text
+        div.appendChild(document.createTextNode(message));
+        //Display the message
+        // this.mainwrapper.appendChild(div);
+        this.mainWrapper.insertBefore(div, this.questionwrapper);
+        //Remove the element after 2 seconds
+        setTimeout(() => {
+            this.mainWrapper.removeChild(div);
+        }, 2000);
     }
 }
