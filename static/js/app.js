@@ -55,14 +55,15 @@ function getaQuestion(e) {
 
 //Get the nav bar
 const navBar = document.getElementById('nav');
-navBar.addEventListener('click', renderRegister);
+navBar.addEventListener('click', renderAuth);
 
-function renderRegister(e) {
+function renderAuth(e) {
     //Get the target
     const target = e.target;
     //Confirn that the target is register button
     if (target.parentElement.classList.contains('register')) {
         ui.loadRegister();
+    } else if (target.parentElement.classList.contains('login')){
+        ui.loadLogin();
     }
-    
 }

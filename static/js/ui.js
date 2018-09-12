@@ -111,7 +111,7 @@ class UI extends Stackoverflowapi {
     //Render the register page
     loadRegister() {
         //Create a variable to store the html
-        let output = '<h1 class="align-center">Register</h1>';
+        let output = '<h1>Register</h1>';
         output += `
         <div class="login-reg">
             <form class="my-form">
@@ -141,6 +141,30 @@ class UI extends Stackoverflowapi {
         </div>
         `;
 
+        this.mainWrapper.innerHTML = output;
+    }
+
+    //Load login
+    loadLogin() {
+        //Create a variable to store the html
+        let output = '<h1>Login</h1>';
+        output += `
+            <div class="login-reg">
+                <form class="my-form">
+                    <div class="form-group">
+                        <label for="username">Username</label>
+                        <input type="text" name="username" id="username" placeholder="Enter Username">
+                    </div>
+                    <div class="form-group">
+                        <label for="password">Password</label>
+                        <input type="password" name="password" id="password" placeholder="Enter Password">
+                    </div>
+                    <button class="button button-primary button-block" type="submit">Login</button>
+                    <p>Don't have an account? <a href="register.html">Register</a></p>
+                </form>
+            </div>
+        `;
+        //Render the html
         this.mainWrapper.innerHTML = output;
     }
 }
