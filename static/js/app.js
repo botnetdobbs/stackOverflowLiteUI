@@ -50,3 +50,19 @@ function getaQuestion(e) {
             });
     }
 }
+
+//Add event listener to trigger the rendering of the register page
+
+//Get the nav bar
+const navBar = document.getElementById('nav');
+navBar.addEventListener('click', renderRegister);
+
+function renderRegister(e) {
+    //Get the target
+    const target = e.target;
+    //Confirn that the target is register button
+    if (target.parentElement.classList.contains('register')) {
+        ui.loadRegister();
+    }
+    
+}

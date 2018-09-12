@@ -107,4 +107,40 @@ class UI extends Stackoverflowapi {
             flashMessage.remove();
         }
     }
+
+    //Render the register page
+    loadRegister() {
+        //Create a variable to store the html
+        let output = '<h1 class="align-center">Register</h1>';
+        output += `
+        <div class="login-reg">
+            <form class="my-form">
+                <div class="form-group">
+                    <label for="name">Name</label>
+                    <input type="text" name="name" id="name" placeholder="Enter Name">
+                </div>
+                <div class="form-group">
+                    <label for="username">Username</label>
+                    <input type="text" name="username" id="username" placeholder="Enter Username">
+                </div>
+                <div class="form-group">
+                    <label for="email">Email</label>
+                    <input type="email" name="email" id="email" placeholder="Enter Email">
+                </div>
+                <div class="form-group">
+                    <label for="password">Password</label>
+                    <input type="password" name="password" id="password" placeholder="Enter Password">
+                </div>
+                <div class="form-group">
+                    <label for="passwordconfirm">Confirm Password</label>
+                    <input type="passwordconfirm" name="passwordconfirm" id="passwordconfirm" placeholder="Enter Password">
+                </div>
+                <input type="submit" class="button button-primary button-block" value="Register">
+                <p>Already have an account? <a href="login.html">Login</a></p>
+            </form>
+        </div>
+        `;
+
+        this.mainWrapper.innerHTML = output;
+    }
 }
