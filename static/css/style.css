@@ -1,3 +1,7 @@
+.align-center {
+    text-align: center;
+}
+
 .pull-right {
     float: right;
 }
@@ -55,3 +59,17 @@
     display: block;
     text-align: center;
 }
+
+/*Registerlogin page*/
+ /*Login/regiater wrapper*/
+ .login-reg {
+    padding: 20px;
+    width: 60%;
+    margin: auto;
+    border-radius: 7px;
+}
+
+.align-center {
+    text-align: center;
+}
+
