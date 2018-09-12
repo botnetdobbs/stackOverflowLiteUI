@@ -1,0 +1,23 @@
+/* questions page styling */
+.questions {
+    padding: 10px 0 15px 10px;
+    border-radius: 10px;
+}
+
+.questions .question {
+    padding-bottom: 15px;
+}
+
+.questions .question h4 {
+    font-weight: normal;
+}
+
+/* Question page */
+
+.question li {
+    list-style-type: none;
+}
+.question .items {
+    color: #0ea31ad7;
+    padding-right: 30px;
+}
