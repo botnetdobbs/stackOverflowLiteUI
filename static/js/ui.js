@@ -21,4 +21,22 @@ class UI extends Stackoverflowapi {
         //Display the questions
         this.questionwrapper.innerHTML = output;
     }
+
+    //Render a single question
+    loadQuestion(question) {
+        //Create a variable to store the questions
+        let output = '';
+        //Assign the question to the output variable
+        output = `
+                <article class="question">
+                    <h4>Posted by <small>${question.author}</small></h4>
+                    <h1 class="description">${question.description} [${question.title}]</h1>
+                    <br>
+                </article>
+                `;
+        // console.log(output);
+        //Display the questions
+        this.questionwrapper.innerHTML = output;
+    }
+    
 }
