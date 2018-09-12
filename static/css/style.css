@@ -39,3 +39,12 @@
     padding: 8px;
     width: 80%;
 }
+
+/*Not Found Message*/
+.question-not-found {
+    background: #be3e3e;
+    color: white;
+    border-radius: 7px;
+    display: block;
+    text-align: center;
+}
