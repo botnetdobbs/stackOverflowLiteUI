@@ -9,7 +9,31 @@
     <link rel="stylesheet" href="./static/css/style.css">
     <title>Document</title>
 </head>
+
 <body>
+    <header>
+        <div class="container">
+            <h2>
+                <a href="/">StackOverflow-lite</a>
+            </h2>
+            <br>
+        </div>
+    </header>
+    <nav id="nav">
+        <div class="container">
+            <ul>
+                <li>
+                    <a href="#">Profile</a>
+                </li>
+                <li class="pull-right">
+                    <a href="#">Login</a>
+                </li>
+                <li class="pull-right">
+                    <a href="#">Register</a>
+                </li>
+            </ul>
+        </div>
+    </nav>
     <div class="container">
         <section id="main">
             <h1 class="questions-header">Questions</h1>
@@ -17,7 +41,9 @@
                 <!--Load the questions here -->
             </div>
             <!--Load the answers -->
-            <div><ul id="answers"></ul></div>
+            <div>
+                <ul id="answers"></ul>
+            </div>
             <!--Load the Answer form-->
             <div id="form-wrapper"></div>
         </section>
@@ -28,6 +54,7 @@
         </div>
     </footer>
     <script src="./static/js/stackoverflowapi.js"></script>
+    <script src="./static/js/auth.js"></script>
     <script src="./static/js/ui.js"></script>
     <script src="./static/js/app.js"></script>
 </body>

@@ -1,3 +1,10 @@
+.pull-right {
+    float: right;
+}
+
+.content {
+    background-color: #f6f9fc;
+}
 /* questions page styling */
 .questions {
     padding: 10px 0 15px 10px;
