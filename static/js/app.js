@@ -27,7 +27,7 @@ function getaQuestion(e) {
     //Use event delegation
     if (target.parentElement.className === 'description') {
         // const url = target.parentElement.previousElementSibling.textContent;
-        myApi.getQuestion('http://127.0.0.1:5000/api/v2/questions/7')
+        myApi.getQuestion(target.getAttribute('href'))
             .then(data => {
                 if (data.question.message) {
                     //Question not found

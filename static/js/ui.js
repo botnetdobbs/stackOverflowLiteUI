@@ -82,6 +82,8 @@ class UI extends Stackoverflowapi {
 
     //Render not found message
     loadNotFound(message) {
+        //Remove flash message if already exists
+        this.removeLoadNotFound();
         //Create a div element
         const div = document.createElement('div');
         //Add a class to the div
@@ -95,5 +97,14 @@ class UI extends Stackoverflowapi {
         setTimeout(() => {
             this.mainWrapper.removeChild(div);
         }, 2000);
+    }
+    //Removes the flash message
+    removeLoadNotFound() {
+        //Get the flash message
+        const flashMessage = document.querySelector('.question-not-found');
+        //If it exists remove it
+        if (flashMessage) {
+            flashMessage.remove();
+        }
     }
 }
