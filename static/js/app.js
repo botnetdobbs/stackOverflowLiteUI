@@ -41,9 +41,11 @@ function getaQuestion(e) {
                         console.log(data.answers.message);
                     } else {
                         //Answer found
-                        console.log(data.answers);
+                        // console.log(data.answers);
+                        ui.loadAnswers(data.answers);
                     }
+                    ui.loadAnswerForm();
                 }
-            })
+            });
     }
 }
