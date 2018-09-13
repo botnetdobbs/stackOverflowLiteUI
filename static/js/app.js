@@ -8,8 +8,16 @@ document.addEventListener('DOMContentLoaded', () => {
         .then(data => {
             if (data.message) {
                 ui.loadNotFound(data.message);
+                //If user is logged in render the user items
+                if (Auth.getAccessToken()) {
+                    ui.loadUserItems();
+                }
             } else {
                 ui.loadQuestions(data);
+                //If user is logged in render the user items
+                if (Auth.getAccessToken()) {
+                    ui.loadUserItems();
+                }
             }
         })
         .catch(error => console.log(error));
@@ -34,7 +42,12 @@ function getaQuestion(e) {
                 if (data.question.message) {
                     //Question not found
                     console.log(data.question.message);
+                    //If user is logged in render the user items
+                    if (Auth.getAccessToken()) {
+                        ui.loadUserItems();
+                    }
                     return ui.loadNotFound(data.question.message);
+
                 } else {
                     //Question/s found
                     // console.log(data.question);
@@ -48,6 +61,10 @@ function getaQuestion(e) {
                         ui.loadAnswers(data.answers);
                     }
                     ui.loadAnswerForm();
+                    //If user is logged in render the user items
+                    if (Auth.getAccessToken()) {
+                        ui.loadUserItems();
+                    }
                 }
             });
     }
@@ -67,6 +84,12 @@ function renderAuth(e) {
         ui.loadRegister();
     } else if (target.parentElement.classList.contains('login')) {
         ui.loadLogin();
+    } else if (target.parentElement.classList.contains('logout')) {
+        auth.logout();
+        window.location.reload(true);
+    } else if(target.parentElement.classList.contains('profile')) {
+        //Load the profile page
+        console.log('Profile page');
     }
 }
 

@@ -5,6 +5,7 @@ class UI extends Stackoverflowapi {
         this.questionwrapper = document.getElementById('all-questions');
         this.answerWrapper = document.getElementById('answers');
         this.formwrapper = document.getElementById('form-wrapper');
+        this.navbar = document.getElementById('nav');
         
     }
 
@@ -158,5 +159,23 @@ class UI extends Stackoverflowapi {
         `;
         //Render the html
         this.mainWrapper.innerHTML = output;
+    }
+
+    loadUserItems() {
+        let output = '';
+
+        output += `
+        <div class="container">
+            <ul>
+                <li class="profile">
+                    <a href="#">Profile</a>
+                </li>
+                <li class="pull-right logout" id ="logout-button">
+                    <a href="#">Logout</a>
+                </li>
+            </ul>
+        </div>
+        `;
+        this.navbar.innerHTML = output;
     }
 }

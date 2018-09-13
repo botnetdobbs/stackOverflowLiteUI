@@ -7,8 +7,10 @@ class Stackoverflowapi {
     //Get all the questions
     getQuestions() {
         return new Promise((resolve, reject) => {
-            fetch(this.url+'/questions')
-                .then(response => {return response.json();})
+            fetch(this.url + '/questions')
+                .then(response => {
+                    return response.json();
+                })
                 .then(data => {
                     resolve(data);
                 })
@@ -37,7 +39,7 @@ class Stackoverflowapi {
 
         //Use async await
         const questionResponse = await fetch(url);
-        const answerResponse = await fetch(url+'/answers');
+        const answerResponse = await fetch(url + '/answers');
 
         //Wait for the requests to finish then save the responses to the following variables
         const question = await questionResponse.json();
@@ -50,5 +52,17 @@ class Stackoverflowapi {
         }
     }
 
-    
+    getCurrentUserQuestions(access_token) {
+        return new Promise((resolve, reject) => {
+            fetch(this.url + '/user/questions', {
+                headers: {
+                    'Authorization': `JWT ${access_token}`
+                }
+            })
+            .then(response => response.json())
+            .then(data => resolve(data))
+            .catch(error => reject(error));
+        });
+    }
+
 }
