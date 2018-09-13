@@ -1,5 +1,6 @@
 const myApi = new Stackoverflowapi;
 const ui = new UI;
+const auth = new Auth;
 
 //Fetch the questions When the dom content loads
 document.addEventListener('DOMContentLoaded', () => {
@@ -11,6 +12,7 @@ document.addEventListener('DOMContentLoaded', () => {
                 ui.loadQuestions(data);
             }
         })
+        .catch(error => console.log(error));
 });
 
 //Get the wrapper for single question
@@ -63,7 +65,41 @@ function renderAuth(e) {
     //Confirn that the target is register button
     if (target.parentElement.classList.contains('register')) {
         ui.loadRegister();
-    } else if (target.parentElement.classList.contains('login')){
+    } else if (target.parentElement.classList.contains('login')) {
         ui.loadLogin();
     }
+}
+
+//Handel the register functionality
+function registerUser() {
+        //Get the values        
+        const username = document.getElementById('username').value;
+        const email = document.getElementById('email').value;
+        const password = document.getElementById('password').value;
+        //Create a user object
+        const user = {username, email, password};
+    
+        //Handle the registering
+        auth.register(user)
+            .then(data => {
+                console.log(data.message);
+            })
+}
+
+//Handle the login functionality
+
+function loginUser() {
+    //Get the values        
+    const username = document.getElementById('username').value;
+    const password = document.getElementById('password').value;
+    //Create a user object
+    const user = {username, password};
+
+    //Handle the login
+    auth.login(user)
+        .then(data => {
+            if (data.message) {
+                console.log(data.message);
+            }
+        })
 }

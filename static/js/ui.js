@@ -11,7 +11,7 @@ class UI extends Stackoverflowapi {
     //Render the questions
     loadQuestions(questions) {
         //Create a variable to store the questions
-        let output = '';
+        let output = '<h1 class="questions-header">Questions</h1>';
         //Loop through each question adding it to the output variable
         questions.forEach(question => {
             output += `
@@ -114,11 +114,7 @@ class UI extends Stackoverflowapi {
         let output = '<h1>Register</h1>';
         output += `
         <div class="login-reg">
-            <form class="my-form">
-                <div class="form-group">
-                    <label for="name">Name</label>
-                    <input type="text" name="name" id="name" placeholder="Enter Name">
-                </div>
+            <form class="my-form" onsubmit=registerUser()>
                 <div class="form-group">
                     <label for="username">Username</label>
                     <input type="text" name="username" id="username" placeholder="Enter Username">
@@ -130,10 +126,6 @@ class UI extends Stackoverflowapi {
                 <div class="form-group">
                     <label for="password">Password</label>
                     <input type="password" name="password" id="password" placeholder="Enter Password">
-                </div>
-                <div class="form-group">
-                    <label for="passwordconfirm">Confirm Password</label>
-                    <input type="passwordconfirm" name="passwordconfirm" id="passwordconfirm" placeholder="Enter Password">
                 </div>
                 <input type="submit" class="button button-primary button-block" value="Register">
                 <p>Already have an account? <a href="login.html">Login</a></p>
@@ -150,7 +142,7 @@ class UI extends Stackoverflowapi {
         let output = '<h1>Login</h1>';
         output += `
             <div class="login-reg">
-                <form class="my-form">
+                <form class="my-form" onsubmit=loginUser()>
                     <div class="form-group">
                         <label for="username">Username</label>
                         <input type="text" name="username" id="username" placeholder="Enter Username">
@@ -159,8 +151,8 @@ class UI extends Stackoverflowapi {
                         <label for="password">Password</label>
                         <input type="password" name="password" id="password" placeholder="Enter Password">
                     </div>
-                    <button class="button button-primary button-block" type="submit">Login</button>
-                    <p>Don't have an account? <a href="register.html">Register</a></p>
+                    <button class="button button-primary button-block">Login</button>
+                    <p class="register">Don't have an account? <a href="#">Register</a></p>
                 </form>
             </div>
         `;
