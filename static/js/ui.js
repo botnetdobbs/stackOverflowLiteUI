@@ -82,27 +82,27 @@ class UI extends Stackoverflowapi {
     }
 
     //Render not found message
-    loadNotFound(message) {
+    loadMessage(message, elClassName) {
         //Remove flash message if already exists
-        this.removeLoadNotFound();
+        this.removeLoadMessage(elClassName);
         //Create a div element
         const div = document.createElement('div');
         //Add a class to the div
-        div.className = 'question-not-found';
+        div.className = elClassName;
         //Add text
         div.appendChild(document.createTextNode(message));
         //Display the message
         // this.mainwrapper.appendChild(div);
-        this.mainWrapper.insertBefore(div, this.questionwrapper);
+        document.getElementById('content-container').insertBefore(div, this.mainWrapper);
         //Remove the element after 2 seconds
         setTimeout(() => {
-            this.mainWrapper.removeChild(div);
+            document.getElementById('content-container').removeChild(div);
         }, 2000);
     }
     //Removes the flash message
-    removeLoadNotFound() {
+    removeLoadMessage(elClassName) {
         //Get the flash message
-        const flashMessage = document.querySelector('.question-not-found');
+        const flashMessage = document.querySelector('.'+elClassName);
         //If it exists remove it
         if (flashMessage) {
             flashMessage.remove();
@@ -185,7 +185,7 @@ class UI extends Stackoverflowapi {
         const user = Auth.getUser();
         let output = `<h4>Welcome <em>${user.username}</em>. You have posted ${userQuestions.length} question${userQuestions.length > 1 ? 's': ''}</h4>
                 <div class="aside">
-                    <table class="my-table">
+                    <table class="my-table" id="actions">
                         <thead>
                             <tr>
                                 <th colspan="2">Actions</th>
@@ -193,7 +193,7 @@ class UI extends Stackoverflowapi {
                         </thead>
                         <tbody>
                             <tr>
-                                <td class="button">Post a New Question</td>
+                                <td class="button post-question"><i>Post a New Question</i></td>
                             </tr>
                         </tbody>
                     </table>
@@ -210,6 +210,26 @@ class UI extends Stackoverflowapi {
             </div>
             `;
         });
+
+        this.mainWrapper.innerHTML = output;
+    }
+
+    loadPostQuestionPage() {
+        let output = '<h1 class="align-center">Ask Question</h1>';
+
+        output += `
+        <form method="POST" class="my-form">
+                <div class="form-group">
+                    <label for="title">Title</label>
+                    <input type="text" name="title" id="title" placeholder="Enter your question title here.">
+                </div>
+                <div class="form-group">
+                    <label for="question-description">Question Description</label>
+                    <textarea name="question" id="question-description" cols="30" rows="10" placeholder="Enter Your Question Here"></textarea>
+                </div>
+            <button type="submit" class="button button-primary" onclick=postQuestion()>Post Question</button>
+        </form>
+        `;
 
         this.mainWrapper.innerHTML = output;
     }

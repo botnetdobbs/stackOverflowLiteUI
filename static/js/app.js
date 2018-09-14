@@ -53,7 +53,7 @@ function getaQuestion(e) {
                     if (Auth.getAccessToken()) {
                         ui.loadUserItems();
                     }
-                    return ui.loadNotFound(data.question.message);
+                    return ui.loadMessage(data.question.message, 'error');
 
                 } else {
                     //Question/s found
@@ -196,6 +196,57 @@ function loginUser() {
         .then(data => {
             if (data.message) {
                 console.log(data.message);
+            }
+        })
+}
+
+//Get the aside wrapper for profile actions
+const MainWrapper = document.getElementById('main');
+//Add event listener to the wrapper
+
+MainWrapper.addEventListener('click', mainPage);
+
+function mainPage(e) {
+    e.preventDefault();
+    const target = e.target;
+    if (target.parentElement.classList.contains('post-question')) {
+        //Load the page for posting a question
+        ui.loadPostQuestionPage();
+    }
+}
+
+//Handle posting of question
+function postQuestion() {
+    //Get the values        
+    const title = document.getElementById('title').value;
+    const description = document.getElementById('question-description').value;
+    //Create a user object
+    const question = {
+        title,
+        description
+    };
+    myApi.postQuestion(question, user.access_token)
+        .then(data => {
+            if (data.message === 'Question created successfully.') {
+                ui.loadMessage(data.message, 'success');
+                setTimeout(() => {
+                    window.location.reload(true);
+                }, 2000);
+            }//Display errors
+            else if (data.message !== 'Question created successfully.') {
+                //Load the error message
+                ui.loadMessage(data.message, 'error');
+            }else if (data.message.title) {
+                // console.log(data.message.title);
+                ui.loadMessage(data.message.title, 'error');
+            }
+            else if (data.message.description) {
+                // console.log(data.message.description);
+                ui.loadMessage(data.message.description, 'error');
+            }
+            else {
+                // console.log(data.description);
+                ui.loadMessage(data.description, 'error');
             }
         })
 }
