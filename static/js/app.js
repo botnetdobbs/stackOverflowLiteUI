@@ -235,7 +235,7 @@ function postQuestion() {
             }//Display errors
             else if (data.message !== 'Question created successfully.') {
                 //Load the error message
-                ui.loadMessage(data.message, 'error');
+                ui.loadMessage(data.message.title, 'error');
             }else if (data.message.title) {
                 // console.log(data.message.title);
                 ui.loadMessage(data.message.title, 'error');
