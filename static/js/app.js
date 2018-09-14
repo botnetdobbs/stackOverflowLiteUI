@@ -1,6 +1,8 @@
 const myApi = new Stackoverflowapi;
 const ui = new UI;
 const auth = new Auth;
+//Get the user object
+const user = Auth.getUser();
 
 //Fetch the questions When the dom content loads
 document.addEventListener('DOMContentLoaded', () => {
@@ -75,7 +77,55 @@ function getaQuestion(e) {
     }
 }
 
-//Add event listener to trigger the rendering of the register page
+//Get the answers wrapper
+const answers = document.getElementById('answers');
+//Add an event listener
+answers.addEventListener('click', (e) => {
+    //Prevent from redirecting
+    e.preventDefault();
+
+    const target = e.target;
+    // console.log(target.className);
+    // console.log(target.getAttribute('href'));
+    const url = target.getAttribute('href');
+    if (target.classList.contains('upvote')) {
+        myApi.downvoteAnswer(url, user.access_token)
+            .then(data => {
+                if (data.message === 'Answer upvoted successfully') {
+                    // console.log(data.message);
+                    //Get the digits from the textContent
+                    let num = target.textContent.match(/\d+/g);
+                    let numVal;
+                    for (let i = 0; i < num.length; i++) {
+                        numVal = parseInt(num[i]) + 1;
+
+                    }
+                    //Assign the new textContent
+                    target.textContent = `Upvote(${numVal})`;
+                }
+            })
+    } else if (target.classList.contains('downvote')) {
+        myApi.downvoteAnswer(url, user.access_token)
+            .then(data => {
+                if (data.message === 'Answer downvoted successfully') {
+                    // console.log(data.message);
+                    //Get the digits from the textContent
+                    let num = target.textContent.match(/\d+/g);
+                    let numVal;
+                    for (let i = 0; i < num.length; i++) {
+                        numVal = parseInt(num[i]) + 1;
+
+                    }
+                    //Assign the new textContent
+                    target.textContent = `Downvote(${numVal})`;
+                }
+            })
+    } else {
+        
+    }
+});
+
+//Add event listener to trigger the rendering of the register page, login, logout & profile
 
 //Get the nav bar
 const navBar = document.getElementById('nav');
@@ -92,39 +142,41 @@ function renderAuth(e) {
     } else if (target.parentElement.classList.contains('logout')) {
         auth.logout();
         window.location.reload(true);
-    } else if(target.parentElement.classList.contains('profile')) {
+    } else if (target.parentElement.classList.contains('profile')) {
         //Load the profile page
         // console.log('Profile page');
-        //Get the user object
-        const user = Auth.getUser();
         //Pass the access_token to the method for auth
         myApi.getCurrentUserQuestions(user.access_token)
-        .then(data=> {
-            if (data.message) {
-                //Questions not found
-                console.log(data.message);
-            } else {
-                //Pass the questions to the profile loader
-                ui.loadProfile(data);
-            }   
-        })
+            .then(data => {
+                if (data.message) {
+                    //Questions not found
+                    console.log(data.message);
+                } else {
+                    //Pass the questions to the profile loader
+                    ui.loadProfile(data);
+                }
+            })
     }
 }
 
 //Handel the register functionality
 function registerUser() {
-        //Get the values        
-        const username = document.getElementById('username').value;
-        const email = document.getElementById('email').value;
-        const password = document.getElementById('password').value;
-        //Create a user object
-        const user = {username, email, password};
-    
-        //Handle the registering
-        auth.register(user)
-            .then(data => {
-                console.log(data.message);
-            })
+    //Get the values        
+    const username = document.getElementById('username').value;
+    const email = document.getElementById('email').value;
+    const password = document.getElementById('password').value;
+    //Create a user object
+    const user = {
+        username,
+        email,
+        password
+    };
+
+    //Handle the registering
+    auth.register(user)
+        .then(data => {
+            console.log(data.message);
+        })
 }
 
 //Handle the login functionality
@@ -134,7 +186,10 @@ function loginUser() {
     const username = document.getElementById('username').value;
     const password = document.getElementById('password').value;
     //Create a user object
-    const user = {username, password};
+    const user = {
+        username,
+        password
+    };
 
     //Handle the login
     auth.login(user)

@@ -52,16 +52,54 @@ class Stackoverflowapi {
         }
     }
 
+    //Upvote an answer
+    upvoteAnswer(url, access_token) {
+        return new Promise((resolve, reject) => {
+            fetch(url, {
+                    method: 'PUT',
+                    headers: {
+                        'Authorization': `JWT ${access_token}`
+                    }
+                })
+                .then(response => {
+                    return response.status;
+                })
+                .then(data => {
+                    resolve(data);
+                })
+                .catch(err => reject(err));
+        });
+    }
+
+    //Downvote an answer
+    downvoteAnswer(url, access_token) {
+        return new Promise((resolve, reject) => {
+            fetch(url, {
+                    method: 'PUT',
+                    headers: {
+                        'Authorization': `JWT ${access_token}`
+                    }
+                })
+                .then(response => {
+                    return response.json();
+                })
+                .then(data => {
+                    resolve(data);
+                })
+                .catch(err => reject(err));
+        });
+    }
+
     getCurrentUserQuestions(access_token) {
         return new Promise((resolve, reject) => {
             fetch(this.url + '/user/questions', {
-                headers: {
-                    'Authorization': `JWT ${access_token}`
-                }
-            })
-            .then(response => response.json())
-            .then(data => resolve(data))
-            .catch(error => reject(error));
+                    headers: {
+                        'Authorization': `JWT ${access_token}`
+                    }
+                })
+                .then(response => response.json())
+                .then(data => resolve(data))
+                .catch(error => reject(error));
         });
     }
 
