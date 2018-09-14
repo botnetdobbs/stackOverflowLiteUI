@@ -116,7 +116,7 @@ class UI extends Stackoverflowapi {
         let output = '<h1>Register</h1>';
         output += `
         <div class="login-reg">
-            <form class="my-form" onsubmit=registerUser()>
+            <form class="my-form">
                 <div class="form-group">
                     <label for="username">Username</label>
                     <input type="text" name="username" id="username" placeholder="Enter Username">
@@ -129,7 +129,7 @@ class UI extends Stackoverflowapi {
                     <label for="password">Password</label>
                     <input type="password" name="password" id="password" placeholder="Enter Password">
                 </div>
-                <input type="submit" class="button button-primary button-block" value="Register">
+                <input type="submit" class="button button-primary button-block" onclick=registerUser() value="Register">
                 <p>Already have an account? <a href="login.html">Login</a></p>
             </form>
         </div>
@@ -144,7 +144,7 @@ class UI extends Stackoverflowapi {
         let output = '<h1>Login</h1>';
         output += `
             <div class="login-reg">
-                <form class="my-form" onsubmit=loginUser()>
+                <form class="my-form">
                     <div class="form-group">
                         <label for="username">Username</label>
                         <input type="text" name="username" id="username" placeholder="Enter Username">
@@ -153,7 +153,7 @@ class UI extends Stackoverflowapi {
                         <label for="password">Password</label>
                         <input type="password" name="password" id="password" placeholder="Enter Password">
                     </div>
-                    <button class="button button-primary button-block">Login</button>
+                    <button class="button button-primary button-block" onclick=loginUser()>Login</button>
                     <p class="register">Don't have an account? <a href="#">Register</a></p>
                 </form>
             </div>

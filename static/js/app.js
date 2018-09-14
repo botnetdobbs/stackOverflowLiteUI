@@ -191,7 +191,16 @@ function registerUser() {
     //Handle the registering
     auth.register(user)
         .then(data => {
-            console.log(data.message);
+            // console.log(data.message);
+            if (data.message === 'User created successfully') {
+                ui.loadMessage('User created successfully. Proceed to login.', 'success');
+            } else if(data.message.username){
+                ui.loadMessage(data.message.username, 'error');
+            } else if(data.message.email) {
+                ui.loadMessage(data.message.email, 'error');
+            } else if(data.message.password) {
+                ui.loadMessage(data.message.password, 'error');
+            }
         })
 }
 
@@ -210,8 +219,15 @@ function loginUser() {
     //Handle the login
     auth.login(user)
         .then(data => {
-            if (data.message) {
-                console.log(data.message);
+            if (data.access_token) {
+                ui.loadMessage('Successfull login.', 'success');
+                setTimeout(() => {
+                    //redirect to main page after 1 seconds
+                    window.location.reload(true);
+
+                }, 1000)
+            } else if (data.description) {
+                ui.loadMessage(data.description, 'error');
             }
         })
 }
