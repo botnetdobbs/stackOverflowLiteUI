@@ -51,9 +51,19 @@
     width: 80%;
 }
 
-/*Not Found Message*/
-.question-not-found {
+/*Messages*/
+.error {
+    margin-top: 10px;
     background: #be3e3e;
+    color: white;
+    border-radius: 7px;
+    display: block;
+    text-align: center;
+}
+
+.success {
+    margin-top: 10px;
+    background: #21941d;
     color: white;
     border-radius: 7px;
     display: block;
