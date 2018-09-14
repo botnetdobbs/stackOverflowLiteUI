@@ -91,6 +91,14 @@ button a , button a:hover, button a:visited {
     background-color: rgb(33, 90, 150);
 }
 
+.button-info {
+    background-color: #0bc00bfa;
+}
+
+.button-info:hover {
+    background-color: #0d920dfa;
+}
+
 
 /* Links */
 a {
