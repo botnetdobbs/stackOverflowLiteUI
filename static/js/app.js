@@ -65,7 +65,7 @@ function getaQuestion(e) {
                     } else {
                         //Answer found
                         // console.log(data.answers);
-                        ui.loadAnswers(data.answers);
+                        ui.loadAnswers(data.answers, data.question, user.username);
                     }
                     ui.loadAnswerForm();
                     //If user is logged in render the user items
@@ -120,8 +120,24 @@ answers.addEventListener('click', (e) => {
                     target.textContent = `Downvote(${numVal})`;
                 }
             })
-    } else {
-        
+    } else if(target.classList.contains('solve')){
+        myApi.markAnswerAsSolution(url, user.access_token)
+        .then(data => {
+            if (data.message === "Answer marked as solution successfully") {
+                // console.log(data.message);
+                //Get the digits from the textContent
+                const title = document.querySelector('.description-parent');
+                const textData = title.textContent;
+                let solve;
+                //If the text includes solution text do nothing
+                if (textData.includes('[SOLUTION]')) {
+                    //Do nothing
+                } else {
+                    solve = '[SOLUTION]' + textData;
+                }
+                title.textContent = solve;
+            }
+        })
     }
 });
 

@@ -45,15 +45,16 @@ class UI extends Stackoverflowapi {
     }
 
     //Render the answers
-    loadAnswers(answers) {
+    loadAnswers(answers, question, username) {
         //Create a variable to store the answers
         let output = '';
         //Loop through each answer adding it to the output variable
         answers.forEach(answer => {
             output += `<li class="answers">
-                            <p><h3>${answer.solved === 1? '[SOLUTION]':''}<em>Anonymous</em> says:  </h3>${answer.answer}</p>
+                            <p class="description-parent"><h3>${answer.solved === 1? '[SOLUTION]':''}<em>Anonymous</em> says:  </h3>${answer.answer}</p>
                             <a class="items upvote" id="upvote" href="${this.url}/questions/${answer.question_id}/answers/${answer.id}/upvote">Upvote(${answer.upvotes})</a>
                             <a class="items downvote" id="downvote" href="${this.url}/questions/${answer.question_id}/answers/${answer.id}/downvote">Downvote(${answer.downvotes})</a>
+                            ${question.author === username ? `<a class="items solve" id="solve" href="${this.url}/questions/${answer.question_id}/answers/${answer.id}/solved">Mark as Solution</a>`: ''}
                         </li>
                 `;
         });
