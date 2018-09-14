@@ -28,6 +28,11 @@ const singleQuestion = document.getElementById('all-questions');
 //Add an event listener
 singleQuestion.addEventListener('click', getaQuestion);
 
+const profileQuestions = document.querySelector('main-content');
+if (profileQuestions) {
+    profileQuestions.addEventListener('click', getaQuestion);
+}
+
 function getaQuestion(e) {
     //Prevent from redirecting
     e.preventDefault();
@@ -89,7 +94,20 @@ function renderAuth(e) {
         window.location.reload(true);
     } else if(target.parentElement.classList.contains('profile')) {
         //Load the profile page
-        console.log('Profile page');
+        // console.log('Profile page');
+        //Get the user object
+        const user = Auth.getUser();
+        //Pass the access_token to the method for auth
+        myApi.getCurrentUserQuestions(user.access_token)
+        .then(data=> {
+            if (data.message) {
+                //Questions not found
+                console.log(data.message);
+            } else {
+                //Pass the questions to the profile loader
+                ui.loadProfile(data);
+            }   
+        })
     }
 }
 

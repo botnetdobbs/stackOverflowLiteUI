@@ -6,7 +6,7 @@ class UI extends Stackoverflowapi {
         this.answerWrapper = document.getElementById('answers');
         this.formwrapper = document.getElementById('form-wrapper');
         this.navbar = document.getElementById('nav');
-        
+
     }
 
     //Render the questions
@@ -48,15 +48,15 @@ class UI extends Stackoverflowapi {
     loadAnswers(answers) {
         //Create a variable to store the answers
         let output = '';
-            //Loop through each answer adding it to the output variable
-            answers.forEach(answer => {
-                output += `<li class="answers">
+        //Loop through each answer adding it to the output variable
+        answers.forEach(answer => {
+            output += `<li class="answers">
                             <p><h3>${answer.solved === 1? '[SOLUTION]':''}<em>Anonymous</em> says:  </h3>${answer.answer}</p>
                             <a class="items upvote" href="${this.url}/questions/${answer.question_id}/answers/${answer.id}/upvote">Upvote(${answer.upvotes})</a>
                             <a class="items downvote" href="${this.url}/questions/${answer.question_id}/answers/${answer.id}/downvote">Downvote(${answer.downvotes})</a>
                         </li>
                 `;
-            });
+        });
 
         // console.log(output);
         //Display the answer
@@ -161,6 +161,7 @@ class UI extends Stackoverflowapi {
         this.mainWrapper.innerHTML = output;
     }
 
+    //Update the navbar if user is logged in
     loadUserItems() {
         let output = '';
 
@@ -177,5 +178,39 @@ class UI extends Stackoverflowapi {
         </div>
         `;
         this.navbar.innerHTML = output;
+    }
+
+    //Render the users profile
+    loadProfile(userQuestions) {
+        const user = Auth.getUser();
+        let output = `<h4>Welcome <em>${user.username}</em>. You have posted ${userQuestions.length} question${userQuestions.length > 1 ? 's': ''}</h4>
+                <div class="aside">
+                    <table class="my-table">
+                        <thead>
+                            <tr>
+                                <th colspan="2">Actions</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td class="button">Post a New Question</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+        `;
+        
+        //Loop through the questions
+        userQuestions.forEach(question => {
+            output += `
+            <div class="main-content">
+                <article class="user-questions">
+                    <h1 class="description"><a href="${this.url}/questions/${question.id}">${question.description} [${question.title}]</a></h1>
+                </article>
+            </div>
+            `;
+        });
+
+        this.mainWrapper.innerHTML = output;
     }
 }
