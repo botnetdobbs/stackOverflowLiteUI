@@ -28,7 +28,7 @@ class UI extends Stackoverflowapi {
     }
 
     //Render a single question
-    loadQuestion(question) {
+    loadQuestion(question, username) {
         //Create a variable to store the questions
         let output = '';
         //Assign the question to the output variable
@@ -37,7 +37,8 @@ class UI extends Stackoverflowapi {
                     <h4>Posted by <small>${question.author}</small></h4>
                     <h1 class="description">${question.description} [${question.title}]</h1>
                     <a href="${this.url}/questions/${question.id}" id="question-link">This should not be displayed</a>
-                    <br>
+                    
+                    ${question.author === username ? `<a class="delete-question" href="${this.url}/questions/${question.id}">DELETE</a>`: ''}
                 </article>
                 `;
         // console.log(output);

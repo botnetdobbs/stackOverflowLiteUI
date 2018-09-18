@@ -58,7 +58,7 @@ function getaQuestion(e) {
                 } else {
                     //Question/s found
                     // console.log(data.question);
-                    ui.loadQuestion(data.question);
+                    ui.loadQuestion(data.question, user.username);
                     if (data.answers.message) {
                         //Answre not found
                         console.log(data.answers.message);
@@ -120,7 +120,7 @@ answers.addEventListener('click', (e) => {
                     target.textContent = `Downvote(${numVal})`;
                 }
             })
-    } else if(target.classList.contains('solve')){
+    } else if (target.classList.contains('solve')) {
         myApi.markAnswerAsSolution(url, user.access_token)
             .then(data => {
                 if (data.message === "Answer marked as solution successfully") {
@@ -138,8 +138,8 @@ answers.addEventListener('click', (e) => {
                     title.textContent = solve;
                 }
             })
-    } else if(target.classList.contains('delete')) {
-        myApi.deleteAnswer(url, user.access_token)
+    } else if (target.classList.contains('delete')) {
+        myApi.delete(url, user.access_token)
             .then(data => {
                 if (data.message === 'Answer deleted successfully') {
                     // console.log(data.message);
@@ -208,11 +208,11 @@ function registerUser() {
             // console.log(data.message);
             if (data.message === 'User created successfully') {
                 ui.loadMessage('User created successfully. Proceed to login.', 'success');
-            } else if(data.message.username){
+            } else if (data.message.username) {
                 ui.loadMessage(data.message.username, 'error');
-            } else if(data.message.email) {
+            } else if (data.message.email) {
                 ui.loadMessage(data.message.email, 'error');
-            } else if(data.message.password) {
+            } else if (data.message.password) {
                 ui.loadMessage(data.message.password, 'error');
             }
         })
@@ -258,6 +258,25 @@ function mainPage(e) {
     if (target.parentElement.classList.contains('post-question')) {
         //Load the page for posting a question
         ui.loadPostQuestionPage();
+    }/**
+     * Listen for crosspage events
+     */
+    else if (target.className === 'delete-question') {
+        const url = target.getAttribute('href');
+        myApi.delete(url, user.access_token)
+            .then(data => {
+                if (data.message === 'Question deleted successfully.') {
+                    ui.loadMessage(data.message, 'success');
+                    //Redirect after 2 seconds(Reloading redirects to home page)
+                    setTimeout(() => {
+                        window.location.reload(true);
+                    }, 2000);
+                } else if (data.message !== 'Question deleted successfully.') {
+                    ui.loadMessage(data.message, 'error');
+                } else if (data.description) {
+                    ui.loadMessage(data.description, 'error');
+                }
+        })
     }
 }
 
@@ -278,7 +297,7 @@ function postQuestion() {
                 setTimeout(() => {
                     window.location.reload(true);
                 }, 2000);
-            }//Display errors
+            } //Display errors
             else if (data.message !== 'Question created successfully.') {
                 //Load the error message
                 if (data.message.title) {
@@ -290,8 +309,7 @@ function postQuestion() {
                 } else if (data.message) {
                     ui.loadMessage(data.message, 'error');
                 }
-            }
-            else if (data.description){
+            } else if (data.description) {
                 // console.log(data.description);
                 ui.loadMessage(data.description, 'error');
             }
@@ -311,7 +329,7 @@ function postAnswer() {
     const thee_question = document.getElementById('question-link');
     const questUrl = thee_question.getAttribute('href');
     // console.log(questUrl);
-    myApi.postAnswer(questUrl +'/answers' , thee_answer, user.access_token)
+    myApi.postAnswer(questUrl + '/answers', thee_answer, user.access_token)
         .then(data => {
             if (data.message === 'Answer inserted successfully') {
                 ui.loadMessage(data.message, 'success');
@@ -319,17 +337,16 @@ function postAnswer() {
                 setTimeout(() => {
                     //.......................
                 }, 2000);
-            }//Display errors
+            } //Display errors
             else if (data.message !== 'Answer inserted successfully') {
                 //Load the error message
                 if (data.message.answer) {
                     // console.log(data.message.answer);
                     ui.loadMessage(data.message.answer, 'error');
-                }else if (data.message) {
+                } else if (data.message) {
                     ui.loadMessage(data.message, 'error');
                 }
-            }
-            else if (data.description){
+            } else if (data.description) {
                 // console.log(data.description);
                 ui.loadMessage(data.description, 'error');
             }

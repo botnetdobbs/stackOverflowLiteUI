@@ -145,7 +145,7 @@ class Stackoverflowapi {
         });
     }
 
-    deleteAnswer(url, access_token) {
+    delete(url, access_token) {
         return new Promise((resolve, reject) => {
             fetch(url, {
                 method: 'DELETE',
