@@ -267,16 +267,17 @@ function postQuestion() {
             }//Display errors
             else if (data.message !== 'Question created successfully.') {
                 //Load the error message
-                ui.loadMessage(data.message.title, 'error');
-            }else if (data.message.title) {
-                // console.log(data.message.title);
-                ui.loadMessage(data.message.title, 'error');
+                if (data.message.title) {
+                    // console.log(data.message.title);
+                    ui.loadMessage(data.message.title, 'error');
+                } else if (data.message.description) {
+                    // console.log(data.message.description);
+                    ui.loadMessage(data.message.description, 'error');
+                } else if (data.message) {
+                    ui.loadMessage(data.message, 'error');
+                }
             }
-            else if (data.message.description) {
-                // console.log(data.message.description);
-                ui.loadMessage(data.message.description, 'error');
-            }
-            else {
+            else if (data.description){
                 // console.log(data.description);
                 ui.loadMessage(data.description, 'error');
             }
