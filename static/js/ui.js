@@ -36,6 +36,7 @@ class UI extends Stackoverflowapi {
                 <article class="question">
                     <h4>Posted by <small>${question.author}</small></h4>
                     <h1 class="description">${question.description} [${question.title}]</h1>
+                    <a href="${this.url}/questions/${question.id}" id="question-link">This should not be displayed</a>
                     <br>
                 </article>
                 `;
@@ -76,7 +77,7 @@ class UI extends Stackoverflowapi {
                         <label for="answer"></label>
                         <textarea name="answer" id="answer" cols="30" rows="10" placeholder="Enter your answer here"></textarea>
                     </div>
-                    <button type="submit" class="button button-primary">Submit Answer</button>
+                    <button type="submit" class="button button-primary" onclick=postAnswer()>Submit Answer</button>
                 </form>`;
         //Display the form
         this.formwrapper.innerHTML = output;

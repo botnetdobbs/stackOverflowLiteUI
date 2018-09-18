@@ -73,6 +73,22 @@ class Stackoverflowapi {
         })
     }
 
+    postAnswer(url, answer, access_token) {
+        return new Promise((resolve, reject) => {
+            fetch(url, {
+                method: 'POST',
+                headers: {
+                    'Authorization': `JWT ${access_token}`,
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify(answer)
+            })
+            .then(response => response.json())
+            .then(data => resolve(data))
+            .catch(err => reject(err));
+        });
+    }
+
     //Upvote an answer
     upvoteAnswer(url, access_token) {
         return new Promise((resolve, reject) => {

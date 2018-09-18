@@ -283,3 +283,41 @@ function postQuestion() {
             }
         })
 }
+
+//Handle posting of an answer
+function postAnswer() {
+    //Get the values        
+    const answer = document.getElementById('answer').value;
+    //Create an answer object
+    const thee_answer = {
+        answer
+    };
+    console.log(thee_answer);
+    //Get the url for the specific question
+    const thee_question = document.getElementById('question-link');
+    const questUrl = thee_question.getAttribute('href');
+    // console.log(questUrl);
+    myApi.postAnswer(questUrl +'/answers' , thee_answer, user.access_token)
+        .then(data => {
+            if (data.message === 'Answer inserted successfully') {
+                ui.loadMessage(data.message, 'success');
+                //Reload only the specific page
+                setTimeout(() => {
+                    //.......................
+                }, 2000);
+            }//Display errors
+            else if (data.message !== 'Answer inserted successfully') {
+                //Load the error message
+                if (data.message.answer) {
+                    // console.log(data.message.answer);
+                    ui.loadMessage(data.message.answer, 'error');
+                }else if (data.message) {
+                    ui.loadMessage(data.message, 'error');
+                }
+            }
+            else if (data.description){
+                // console.log(data.description);
+                ui.loadMessage(data.description, 'error');
+            }
+        })
+}
