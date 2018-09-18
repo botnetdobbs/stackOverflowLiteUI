@@ -145,6 +145,20 @@ class Stackoverflowapi {
         });
     }
 
+    deleteAnswer(url, access_token) {
+        return new Promise((resolve, reject) => {
+            fetch(url, {
+                method: 'DELETE',
+                headers: {
+                    'Authorization': `JWT ${access_token}`
+                }
+            })
+            .then(response => response.json())
+            .then(data => resolve(data))
+            .catch(err => reject(err));
+        });
+    }
+
     getCurrentUserQuestions(access_token) {
         return new Promise((resolve, reject) => {
             fetch(this.url + '/user/questions', {

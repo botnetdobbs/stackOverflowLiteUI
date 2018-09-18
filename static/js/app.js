@@ -122,22 +122,36 @@ answers.addEventListener('click', (e) => {
             })
     } else if(target.classList.contains('solve')){
         myApi.markAnswerAsSolution(url, user.access_token)
-        .then(data => {
-            if (data.message === "Answer marked as solution successfully") {
-                // console.log(data.message);
-                //Get the digits from the textContent
-                const title = document.querySelector('.description-parent');
-                const textData = title.textContent;
-                let solve;
-                //If the text includes solution text do nothing
-                if (textData.includes('[SOLUTION]')) {
-                    //Do nothing
-                } else {
-                    solve = '[SOLUTION]' + textData;
+            .then(data => {
+                if (data.message === "Answer marked as solution successfully") {
+                    // console.log(data.message);
+                    //Get the digits from the textContent
+                    const title = document.querySelector('.description-parent');
+                    const textData = title.textContent;
+                    let solve;
+                    //If the text includes solution text do nothing
+                    if (textData.includes('[SOLUTION]')) {
+                        //Do nothing
+                    } else {
+                        solve = '[SOLUTION]' + textData;
+                    }
+                    title.textContent = solve;
                 }
-                title.textContent = solve;
-            }
-        })
+            })
+    } else if(target.classList.contains('delete')) {
+        myApi.deleteAnswer(url, user.access_token)
+            .then(data => {
+                if (data.message === 'Answer deleted successfully') {
+                    // console.log(data.message);
+                    ui.loadMessage(data.message, 'success');
+                    //remove the answer
+                    target.parentElement.remove();
+                } else if (data.message !== 'Answer deleted successfully') {
+                    ui.loadMessage(data.message, 'error');
+                } else if (data.description) {
+                    ui.loadMessage(data.description, 'error');
+                }
+            })
     }
 });
 

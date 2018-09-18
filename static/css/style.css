@@ -39,6 +39,11 @@
     padding-right: 30px;
 }
 
+/* Answers */
+#answers li {
+    list-style-type: none;
+}
+
 /*Forms*/
 .my-form {
     padding: 20px;
