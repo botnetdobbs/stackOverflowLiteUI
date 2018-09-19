@@ -109,6 +109,20 @@ class Stackoverflowapi {
         });
     }
 
+    //Get a unique answe
+    getAnswer(url) {
+        return new Promise((resolve, reject) => {
+            fetch(url)
+            .then(response => {
+                return response.json();
+            })
+            .then(data => {
+                resolve(data);
+            })
+            .catch(err => reject(err));
+        })
+    }
+
     //Upvote an answer
     upvoteAnswer(url, access_token) {
         return new Promise((resolve, reject) => {
@@ -154,6 +168,26 @@ class Stackoverflowapi {
                     headers: {
                         'Authorization': `JWT ${access_token}`
                     }
+                })
+                .then(response => {
+                    return response.json();
+                })
+                .then(data => {
+                    resolve(data);
+                })
+                .catch(err => reject(err));
+        });
+    }
+
+    updateAnswer(url, answer, access_token) {
+        return new Promise((resolve, reject) => {
+            fetch(url, {
+                    method: 'PUT',
+                    headers: {
+                        'Authorization': `JWT ${access_token}`,
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify(answer)
                 })
                 .then(response => {
                     return response.json();

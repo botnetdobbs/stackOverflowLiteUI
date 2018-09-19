@@ -152,6 +152,14 @@ answers.addEventListener('click', (e) => {
                     ui.loadMessage(data.description, 'error');
                 }
             })
+    } else if (target.classList.contains('edit')) {
+        // console.log(url);
+        myApi.getAnswer(url, user.access_token)
+            .then(data => {
+                // console.log(data);
+                //Load the new form for updating the answer
+                ui.loadEditAnswerPage(data);
+            })
     }
 });
 
@@ -392,6 +400,48 @@ function postAnswer() {
                     ui.loadMessage(data.message, 'error');
                 }
             } else if (data.description) {
+                // console.log(data.description);
+                ui.loadMessage(data.description, 'error');
+            }
+        })
+}
+
+function updateAnswer() {
+    //Get the values        
+    const answer = document.getElementById('answer').value;
+    const answer_id = document.getElementById('answer-id').value;
+    //Create an answer object
+    const thee_answer = {
+        answer
+    };
+    console.log(thee_answer);
+    //Get the url for the specific question
+    const thee_question = document.getElementById('question-link');
+    const questUrl = thee_question.getAttribute('href');
+    // console.log(questUrl);
+    myApi.updateAnswer(questUrl + `/answers/${answer_id}`, thee_answer, user.access_token)
+        .then(data => {
+            if (data.message === 'Your answer updated successfully') {
+                //Load the success message
+                // ui.loadMessage(data.message, 'success');
+                //Actions after 1 second
+                setTimeout(() => {
+                    //Restore form for posting an answer
+                    ui.loadAnswerForm();
+                    //Update the answer without reloading
+                    const comment =  document.getElementById('answerdesc');
+                    comment.innerHTML=answer;
+                }, 1000);
+            } //Display errors
+            if (data.message !== 'Your answer updated successfully') {
+                //Load the error message
+                ui.loadMessage(data.message, 'error');
+            }
+            if (data.message.answer) {
+                // console.log(data.message.answer);
+                ui.loadMessage(data.message.answer, 'error');
+            }
+            if (data.description) {
                 // console.log(data.description);
                 ui.loadMessage(data.description, 'error');
             }

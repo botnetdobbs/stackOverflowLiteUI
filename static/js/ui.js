@@ -55,12 +55,12 @@ class UI extends Stackoverflowapi {
         answers.forEach(answer => {
             output += `<li class="answers">
                             <div>
-                                <p class="description-parent"><h3>${answer.solved === 1? '[SOLUTION]':''}<em>${question.author === answer.author ? 'You say': answer.author + ' says'}</em>:  </h3>${answer.answer}</p>
-                                <a class="items upvote" id="upvote" href="${this.url}/questions/${answer.question_id}/answers/${answer.id}/upvote">Upvote(${answer.upvotes})</a>
-                                <a class="items downvote" id="downvote" href="${this.url}/questions/${answer.question_id}/answers/${answer.id}/downvote">Downvote(${answer.downvotes})</a>
-                                ${question.author === username ? `<a class="items solve" id="solve" href="${this.url}/questions/${answer.question_id}/answers/${answer.id}/solved">Mark as Solution</a>`: ''}
-                                ${question.author === username || answer.author === username ? `<a class="items delete" id="delete" href="${this.url}/questions/${answer.question_id}/answers/${answer.id}">Delete</a>`: ''}
-                                ${question.author === username || answer.author === username ? `<a class="items edit" id="edit" href="${this.url}/questions/${answer.question_id}/answers/${answer.id}">EDIT</a>`: ''}
+                                <p class="description-parent"><h3>${answer.solved === 1? '[SOLUTION]':''}<em>${question.author === answer.author ? 'You say': answer.author + ' says'}</em>:  </h3><i id="answerdesc">${answer.answer}</i></p>
+                                <a class="items upvote" id="upvote" href="${this.url}/questions/${answer.question_id}/answers/${answer.id}/upvote">Upvote(${answer.upvotes}) |</a>
+                                <a class="items downvote" id="downvote" href="${this.url}/questions/${answer.question_id}/answers/${answer.id}/downvote">Downvote(${answer.downvotes}) |</a>
+                                ${question.author === username ? `<a class="items solve" id="solve" href="${this.url}/questions/${answer.question_id}/answers/${answer.id}/solved">Mark as Solution |</a>`: ''}
+                                ${question.author === username || answer.author === username ? `<a class="items delete" id="delete" href="${this.url}/questions/${answer.question_id}/answers/${answer.id}">Delete |</a>`: ''}
+                                ${question.author === username || answer.author === username ? `<a class="items edit" id="edit" href="${this.url}/questions/${answer.question_id}/answers/${answer.id}">Edit</a>`: ''}
                             </div>
                         </li>
                 `;
@@ -89,7 +89,23 @@ class UI extends Stackoverflowapi {
         this.formwrapper.innerHTML = output;
     }
 
-    // loadEditAnswerForm()
+    loadEditAnswerPage(answer) {
+        //Create a variable to store the form
+        let output = '<hr>';
+        //Add the form to the variable
+        output = `
+                <form action="" method="post" class="my-form" id="add-answer">
+                    <h3>Add an answer</h3>
+                    <div class="form-group">
+                        <label for="answer"></label>
+                        <textarea name="answer" id="answer" cols="30" rows="10" >${answer.answer}</textarea>
+                    </div>
+                    <input type="hidden" id="answer-id" value="${answer.id}">
+                    <button type="submit" class="button button-primary" onclick=updateAnswer()>Update Answer</button>
+                </form>`;
+        //Display the form
+        this.formwrapper.innerHTML = output;
+    }
 
     //Render not found message
     loadMessage(message, elClassName) {
