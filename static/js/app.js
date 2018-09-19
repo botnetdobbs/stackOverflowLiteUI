@@ -277,6 +277,13 @@ function mainPage(e) {
                     ui.loadMessage(data.description, 'error');
                 }
         })
+    } else if (target.className === 'edit-question') {
+        const url = target.getAttribute('href');
+        myApi.getQuestion(url)
+        .then(data => {
+            // console.log(data.question);
+            ui.loadEditQuestionPage(data.question);
+        })
     }
 }
 
@@ -299,6 +306,44 @@ function postQuestion() {
                 }, 2000);
             } //Display errors
             else if (data.message !== 'Question created successfully.') {
+                //Load the error message
+                if (data.message.title) {
+                    // console.log(data.message.title);
+                    ui.loadMessage(data.message.title, 'error');
+                } else if (data.message.description) {
+                    // console.log(data.message.description);
+                    ui.loadMessage(data.message.description, 'error');
+                } else if (data.message) {
+                    ui.loadMessage(data.message, 'error');
+                }
+            } else if (data.description) {
+                // console.log(data.description);
+                ui.loadMessage(data.description, 'error');
+            }
+        })
+}
+
+
+//Handle updating of question
+function updateQuestion() {
+    //Get the values        
+    const title = document.getElementById('title').value;
+    const description = document.getElementById('question-description').value;
+    const question_id = document.getElementById('question-id').value;
+    //Create a user object
+    const question = {
+        title,
+        description
+    };
+    myApi.updateQuestion(question, question_id, user.access_token)
+        .then(data => {
+            if (data.id) {
+                ui.loadMessage('Question updated successfully', 'success');
+                setTimeout(() => {
+                    window.location.reload(true);
+                }, 2000);
+            } //Display errors
+            else if (data.message) {
                 //Load the error message
                 if (data.message.title) {
                     // console.log(data.message.title);

@@ -72,20 +72,40 @@ class Stackoverflowapi {
                 .catch(err => reject(err));
         })
     }
+    //Update a question
+    updateQuestion(question, question_id, access_token) {
+        return new Promise((resolve, reject) => {
+            fetch(this.url + '/questions/' + question_id, {
+                    method: 'PUT',
+                    headers: {
+                        'Content-Type': 'application/json',
+                        'Authorization': `JWT ${access_token}`
+                    },
+                    body: JSON.stringify(question)
+                })
+                .then(response => {
+                    return response.json();
+                })
+                .then(data => {
+                    resolve(data);
+                })
+                .catch(err => reject(err));
+        })
+    }
 
     postAnswer(url, answer, access_token) {
         return new Promise((resolve, reject) => {
             fetch(url, {
-                method: 'POST',
-                headers: {
-                    'Authorization': `JWT ${access_token}`,
-                    'Content-Type': 'application/json'
-                },
-                body: JSON.stringify(answer)
-            })
-            .then(response => response.json())
-            .then(data => resolve(data))
-            .catch(err => reject(err));
+                    method: 'POST',
+                    headers: {
+                        'Authorization': `JWT ${access_token}`,
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify(answer)
+                })
+                .then(response => response.json())
+                .then(data => resolve(data))
+                .catch(err => reject(err));
         });
     }
 
@@ -148,14 +168,14 @@ class Stackoverflowapi {
     delete(url, access_token) {
         return new Promise((resolve, reject) => {
             fetch(url, {
-                method: 'DELETE',
-                headers: {
-                    'Authorization': `JWT ${access_token}`
-                }
-            })
-            .then(response => response.json())
-            .then(data => resolve(data))
-            .catch(err => reject(err));
+                    method: 'DELETE',
+                    headers: {
+                        'Authorization': `JWT ${access_token}`
+                    }
+                })
+                .then(response => response.json())
+                .then(data => resolve(data))
+                .catch(err => reject(err));
         });
     }
 

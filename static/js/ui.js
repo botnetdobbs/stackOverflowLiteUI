@@ -39,6 +39,7 @@ class UI extends Stackoverflowapi {
                     <a href="${this.url}/questions/${question.id}" id="question-link">This should not be displayed</a>
                     
                     ${question.author === username ? `<a class="delete-question" href="${this.url}/questions/${question.id}">DELETE</a>`: ''}
+                    ${question.author === username ? `<a class="edit-question" href="${this.url}/questions/${question.id}">EDIT</a>`: ''}
                 </article>
                 `;
         // console.log(output);
@@ -59,6 +60,7 @@ class UI extends Stackoverflowapi {
                                 <a class="items downvote" id="downvote" href="${this.url}/questions/${answer.question_id}/answers/${answer.id}/downvote">Downvote(${answer.downvotes})</a>
                                 ${question.author === username ? `<a class="items solve" id="solve" href="${this.url}/questions/${answer.question_id}/answers/${answer.id}/solved">Mark as Solution</a>`: ''}
                                 ${question.author === username || answer.author === username ? `<a class="items delete" id="delete" href="${this.url}/questions/${answer.question_id}/answers/${answer.id}">Delete</a>`: ''}
+                                ${question.author === username || answer.author === username ? `<a class="items edit" id="edit" href="${this.url}/questions/${answer.question_id}/answers/${answer.id}">EDIT</a>`: ''}
                             </div>
                         </li>
                 `;
@@ -87,6 +89,8 @@ class UI extends Stackoverflowapi {
         this.formwrapper.innerHTML = output;
     }
 
+    // loadEditAnswerForm()
+
     //Render not found message
     loadMessage(message, elClassName) {
         //Remove flash message if already exists
@@ -108,7 +112,7 @@ class UI extends Stackoverflowapi {
     //Removes the flash message
     removeLoadMessage(elClassName) {
         //Get the flash message
-        const flashMessage = document.querySelector('.'+elClassName);
+        const flashMessage = document.querySelector('.' + elClassName);
         //If it exists remove it
         if (flashMessage) {
             flashMessage.remove();
@@ -205,7 +209,7 @@ class UI extends Stackoverflowapi {
                     </table>
                 </div>
         `;
-        
+
         //Loop through the questions
         userQuestions.forEach(question => {
             output += `
@@ -236,6 +240,27 @@ class UI extends Stackoverflowapi {
             <button type="submit" class="button button-primary" onclick=postQuestion()>Post Question</button>
         </form>
         `;
+
+        this.mainWrapper.innerHTML = output;
+    }
+
+    loadEditQuestionPage(question) {
+        let output = '<h1 class="align-center">Update Question</h1>';
+
+        output += `
+            <form method="POST" class="my-form">
+                    <div class="form-group">
+                        <label for="title">Title</label>
+                        <input type="text" name="title" id="title" value="${question.title}">
+                    </div>
+                    <div class="form-group">
+                        <label for="question-description">Question Description</label>
+                        <textarea name="question" id="question-description" cols="30" rows="10">${question.description}</textarea>
+                    </div>
+                    <input type="hidden" id = "question-id" value="${question.id}">
+                <button type="submit" class="button button-primary" onclick=updateQuestion()>Update Question</button>
+            </form>
+            `;
 
         this.mainWrapper.innerHTML = output;
     }
