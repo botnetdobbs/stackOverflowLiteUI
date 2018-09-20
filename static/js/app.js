@@ -186,13 +186,8 @@ function renderAuth(e) {
         //Pass the access_token to the method for auth
         myApi.getCurrentUserQuestions(user.access_token)
             .then(data => {
-                if (data.message) {
-                    //Questions not found
-                    console.log(data.message);
-                } else {
-                    //Pass the questions to the profile loader
-                    ui.loadProfile(data);
-                }
+                //Pass the data to the profile loader
+                ui.loadProfile(data);
             })
     }
 }

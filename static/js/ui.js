@@ -209,7 +209,7 @@ class UI extends Stackoverflowapi {
     //Render the users profile
     loadProfile(userQuestions) {
         const user = Auth.getUser();
-        let output = `<h4>Welcome <em>${user.username}</em>. You have posted ${userQuestions.length} question${userQuestions.length > 1 ? 's': ''}</h4>
+        let output = `<h4>Welcome <em>${user.username}</em>. You have posted ${userQuestions.length >= 1? userQuestions.length: 'no' } question${userQuestions.length > 1 ? 's': ''}</h4>
                 <div class="aside">
                     <table class="my-table" id="actions">
                         <thead>
@@ -225,17 +225,28 @@ class UI extends Stackoverflowapi {
                     </table>
                 </div>
         `;
-
-        //Loop through the questions
-        userQuestions.forEach(question => {
+        //If the user has questions posted
+        if (!userQuestions.message) {
+            //Loop through the questions
+            userQuestions.forEach(question => {
+                output += `
+                <div class="main-content">
+                    <article class="user-questions">
+                        <h1 class="description"><a href="${this.url}/questions/${question.id}">${question.description} [${question.title}]</a></h1>
+                    </article>
+                </div>
+            `;
+            });
+        }
+        //If the user has no questions or an error
+        if (userQuestions.message) {
             output += `
             <div class="main-content">
-                <article class="user-questions">
-                    <h1 class="description"><a href="${this.url}/questions/${question.id}">${question.description} [${question.title}]</a></h1>
-                </article>
+                <h1>${userQuestions.message}</h1>
             </div>
-            `;
-        });
+        `;
+        }
+
 
         this.mainWrapper.innerHTML = output;
     }
