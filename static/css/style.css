@@ -1,9 +1,15 @@
+/*Alignment*/
 .align-center {
     text-align: center;
 }
 
 .pull-right {
     float: right;
+}
+
+/*Text-colors*/
+.bold {
+    font-weight: bold;
 }
 
 #question-link {

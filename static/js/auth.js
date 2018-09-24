@@ -63,6 +63,10 @@ class Auth extends Stackoverflowapi {
         return user;
     }
 
+    static isLoggedIn() {
+        return localStorage.getItem('user') === null ? false: true;
+    }
+
     static getAccessToken() {
         //Create a variable to store the token
         let access_token;

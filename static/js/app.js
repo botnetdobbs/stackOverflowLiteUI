@@ -9,7 +9,7 @@ document.addEventListener('DOMContentLoaded', () => {
     myApi.getQuestions()
         .then(data => {
             if (data.message) {
-                ui.loadNotFound(data.message);
+                ui.loadMessage(data.message, 'error');
                 //If user is logged in render the user items
                 if (Auth.getAccessToken()) {
                     ui.loadUserItems();
@@ -30,7 +30,7 @@ const singleQuestion = document.getElementById('all-questions');
 //Add an event listener
 singleQuestion.addEventListener('click', getaQuestion);
 
-const profileQuestions = document.querySelector('main-content');
+const profileQuestions = document.querySelector('.main-content');
 if (profileQuestions) {
     profileQuestions.addEventListener('click', getaQuestion);
 }
@@ -102,6 +102,18 @@ answers.addEventListener('click', (e) => {
                     }
                     //Assign the new textContent
                     target.textContent = `Upvote(${numVal})`;
+                } else {
+                    //Remove the error status message if it exists
+                    ui.removeLoadMessage('error');
+                    //Render it
+                    let errorp = document.createElement('span');
+                    errorp.className = 'error';
+                    errorp.textContent = 'Login to upvote';
+                    target.parentElement.appendChild(errorp);
+                    //Remove after 1.5 seconds
+                    setTimeout(() => {
+                        target.parentElement.removeChild(errorp);
+                    }, 1500)
                 }
             })
     } else if (target.classList.contains('downvote')) {
@@ -118,6 +130,18 @@ answers.addEventListener('click', (e) => {
                     }
                     //Assign the new textContent
                     target.textContent = `Downvote(${numVal})`;
+                } else {
+                    //Remove the error status message if it exists
+                    ui.removeLoadMessage('error');
+                    //Render the error message
+                    let errorp = document.createElement('span');
+                    errorp.className = 'error';
+                    errorp.textContent = 'Login to downvote';
+                    target.parentElement.appendChild(errorp);
+                    //Remove after 1.5 seconds
+                    setTimeout(() => {
+                        target.parentElement.removeChild(errorp);
+                    }, 1500)
                 }
             })
     } else if (target.classList.contains('solve')) {
@@ -204,19 +228,23 @@ function registerUser() {
         email,
         password
     };
+    //get the form
+    const registerForm = document.querySelector('.login-reg');
 
     //Handle the registering
     auth.register(user)
         .then(data => {
             // console.log(data.message);
             if (data.message === 'User created successfully') {
-                ui.loadMessage('User created successfully. Proceed to login.', 'success');
+                //Load the login page and status message
+                ui.loadLogin();
+                ui.loadMessage('User created successfully. Proceed to login.', 'success', registerForm);
             } else if (data.message.username) {
-                ui.loadMessage(data.message.username, 'error');
+                ui.loadMessage(data.message.username, 'error', registerForm);
             } else if (data.message.email) {
-                ui.loadMessage(data.message.email, 'error');
+                ui.loadMessage(data.message.email, 'error', registerForm);
             } else if (data.message.password) {
-                ui.loadMessage(data.message.password, 'error');
+                ui.loadMessage(data.message.password, 'error', registerForm);
             }
         })
 }
@@ -232,19 +260,20 @@ function loginUser() {
         username,
         password
     };
-
+    //get the form
+    const loginForm = document.querySelector('.login-reg');
     //Handle the login
     auth.login(user)
         .then(data => {
             if (data.access_token) {
-                ui.loadMessage('Successfull login.', 'success');
+                ui.loadMessage('Successfull login.', 'success', loginForm);
                 setTimeout(() => {
                     //redirect to main page after 1 seconds
                     window.location.reload(true);
 
                 }, 1000)
             } else if (data.description) {
-                ui.loadMessage(data.description, 'error');
+                ui.loadMessage(data.description, 'error', loginForm);
             }
         })
 }
@@ -279,14 +308,14 @@ function mainPage(e) {
                 } else if (data.description) {
                     ui.loadMessage(data.description, 'error');
                 }
-        })
+            })
     } else if (target.className === 'edit-question') {
         const url = target.getAttribute('href');
         myApi.getQuestion(url)
-        .then(data => {
-            // console.log(data.question);
-            ui.loadEditQuestionPage(data.question);
-        })
+            .then(data => {
+                // console.log(data.question);
+                ui.loadEditQuestionPage(data.question);
+            })
     }
 }
 
@@ -372,32 +401,40 @@ function postAnswer() {
     const thee_answer = {
         answer
     };
-    console.log(thee_answer);
+    // console.log(thee_answer);
     //Get the url for the specific question
     const thee_question = document.getElementById('question-link');
     const questUrl = thee_question.getAttribute('href');
+    
+    //Get the form-wrapper
+    const ansFormWrapper = document.getElementById('form-wrapper');
     // console.log(questUrl);
     myApi.postAnswer(questUrl + '/answers', thee_answer, user.access_token)
-        .then(data => {
+        .then(data => {console.log(data);
             if (data.message === 'Answer inserted successfully') {
                 ui.loadMessage(data.message, 'success');
                 //Reload only the specific page
+                //Actions after 1 second
                 setTimeout(() => {
-                    //.......................
-                }, 2000);
+                    //Restore form for posting an answer
+                    ui.loadAnswerForm();
+                    //Update the answer without reloading
+                    myApi.getQuestion(questUrl)
+                        .then(data => { ui.loadAnswers(data.answers, data.question, user.username); });
+                }, 1000);
             } //Display errors
-            else if (data.message !== 'Answer inserted successfully') {
+            if (data.message !== 'Answer inserted successfully') {
                 //Load the error message
-                if (data.message.answer) {
-                    // console.log(data.message.answer);
-                    ui.loadMessage(data.message.answer, 'error');
-                } else if (data.message) {
-                    ui.loadMessage(data.message, 'error');
-                }
-            } else if (data.description) {
+                ui.loadMessage(data.message, 'error', ansFormWrapper);
+            }
+            if (data.message.answer) {
+                // console.log(data.message.answer);
+                ui.loadMessage(data.message.answer, 'error', ansFormWrapper);
+            } 
+            if (data.description) {
                 // console.log(data.description);
                 ui.loadMessage(data.description, 'error');
-            }
+            } 
         })
 }
 
@@ -424,8 +461,8 @@ function updateAnswer() {
                     //Restore form for posting an answer
                     ui.loadAnswerForm();
                     //Update the answer without reloading
-                    const comment =  document.getElementById('answerdesc');
-                    comment.innerHTML=answer;
+                    const comment = document.getElementById('answerdesc');
+                    comment.innerHTML = answer;
                 }, 1000);
             } //Display errors
             if (data.message !== 'Your answer updated successfully') {
