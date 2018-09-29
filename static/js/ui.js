@@ -1,3 +1,7 @@
+/**
+ * User Interface Controller
+ * Handles HTML rendering
+ */
 class UI extends Stackoverflowapi {
     constructor() {
         super();
@@ -55,12 +59,12 @@ class UI extends Stackoverflowapi {
         answers.forEach(answer => {
             output += `<li class="answers">
                             <div>
-                                <p class="description-parent"><h3>${answer.solved === 1 ? '[SOLUTION]' : ''}<em>${username === answer.author ? 'You say' : answer.author + ' says'}</em>:  </h3><i id="answerdesc">${answer.answer}</i></p>
+                                <p class="description-parent"><h3>${answer.solved === 1 ? '[SOLUTION]' : ''}<em>${username === answer.author ? 'You say' : answer.author + ' says'}</em>:  </h3><p id="answerdesc">${answer.answer}</p></p>
                                 <a class="items upvote" id="upvote" href="${this.url}/questions/${answer.question_id}/answers/${answer.id}/upvote">Upvote(${answer.upvotes}) |</a>
                                 <a class="items downvote" id="downvote" href="${this.url}/questions/${answer.question_id}/answers/${answer.id}/downvote">Downvote(${answer.downvotes}) |</a>
                                 ${question.author === username ? `<a class="items solve" id="solve" href="${this.url}/questions/${answer.question_id}/answers/${answer.id}/solved">Mark as Solution |</a>` : ''}
-                                ${question.author === username || answer.author === username ? `<a class="items delete" id="delete" href="${this.url}/questions/${answer.question_id}/answers/${answer.id}">Delete |</a>` : ''}
-                                ${question.author === username || answer.author === username ? `<a class="items edit" id="edit" href="${this.url}/questions/${answer.question_id}/answers/${answer.id}">Edit</a>` : ''}
+                                ${answer.author === username ? `<a class="items delete" id="delete" href="${this.url}/questions/${answer.question_id}/answers/${answer.id}">Delete |</a>` : ''}
+                                ${answer.author === username ? `<a class="items edit" id="edit" href="${this.url}/questions/${answer.question_id}/answers/${answer.id}">Edit</a>` : ''}
                             </div>
                         </li>
                 `;
@@ -106,7 +110,7 @@ class UI extends Stackoverflowapi {
                         <textarea name="answer" id="answer" cols="30" rows="10" >${answer.answer}</textarea>
                     </div>
                     <input type="hidden" id="answer-id" value="${answer.id}">
-                    <button type="submit" class="button button-primary" onclick=updateAnswer()>Update Answer</button>
+                    <button type="submit" class="button button-primary" onclick=updateAnswer("${answer.answer.substring(0,5)}")>Update Answer</button>
                 </form>`;
         //Display the form
         this.formwrapper.innerHTML = output;

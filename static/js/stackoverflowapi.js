@@ -1,7 +1,11 @@
+/**
+ * Model class
+ * Handles the fetching and direct interaction with the API
+ */
 class Stackoverflowapi {
     constructor() {
         //The API url
-        this.url = 'https://radiant-atoll-76789.herokuapp.com/api/v2';
+        this.url = 'http://127.0.0.1:5000/api/v2';
     }
 
     //Get all the questions

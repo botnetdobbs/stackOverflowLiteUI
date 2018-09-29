@@ -27,7 +27,12 @@ class Auth extends Stackoverflowapi {
                             headers: {'Content-Type': 'application/json'},
                             body: JSON.stringify(user)
                         })
-                .then(response => {return response.json();})
+                .then(response => {
+                    if (response.status === 500) {
+                        return reject({message: 'Invalid credentials'});
+                    }
+                    return response.json();
+                })
                 .then(data => {
                     if (data.access_token) {
                         //Save the user object

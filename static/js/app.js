@@ -1,3 +1,7 @@
+/**
+ * Main JS file
+ * Deals with handling of events
+ */
 const myApi = new Stackoverflowapi;
 const ui = new UI;
 const auth = new Auth;
@@ -222,6 +226,7 @@ function registerUser() {
     const username = document.getElementById('username').value;
     const email = document.getElementById('email').value;
     const password = document.getElementById('password').value;
+
     //Create a user object
     const user = {
         username,
@@ -234,16 +239,17 @@ function registerUser() {
     //Handle the registering
     auth.register(user)
         .then(data => {
-            // console.log(data.message);
             if (data.message === 'User created successfully') {
                 //Load the login page and status message
                 ui.loadLogin();
                 ui.loadMessage('User created successfully. Proceed to login.', 'success', registerForm);
-            } else if (data.message.username) {
+            } if (data.message !== 'User created successfully') {
+                ui.loadMessage(data.message, 'error', registerForm);
+            } if (data.message.username) {
                 ui.loadMessage(data.message.username, 'error', registerForm);
-            } else if (data.message.email) {
+            } if (data.message.email) {
                 ui.loadMessage(data.message.email, 'error', registerForm);
-            } else if (data.message.password) {
+            } if (data.message.password) {
                 ui.loadMessage(data.message.password, 'error', registerForm);
             }
         })
@@ -276,6 +282,9 @@ function loginUser() {
                 ui.loadMessage(data.description, 'error', loginForm);
             }
         })
+        .catch(err => {
+            ui.loadMessage(err.message, 'error', loginForm);
+        })
 }
 
 //Get the aside wrapper for profile actions
@@ -293,7 +302,7 @@ function mainPage(e) {
     }/**
      * Listen for crosspage events
      */
-    else if (target.className === 'delete-question') {
+    else if (target.classList.contains('delete-question')) {
         const url = target.getAttribute('href');
         myApi.delete(url, user.access_token)
             .then(data => {
@@ -309,7 +318,7 @@ function mainPage(e) {
                     ui.loadMessage(data.description, 'error');
                 }
             })
-    } else if (target.className === 'edit-question') {
+    } else if (target.classList.contains('edit-question')) {
         const url = target.getAttribute('href');
         myApi.getQuestion(url)
             .then(data => {
@@ -405,12 +414,13 @@ function postAnswer() {
     //Get the url for the specific question
     const thee_question = document.getElementById('question-link');
     const questUrl = thee_question.getAttribute('href');
-    
+
     //Get the form-wrapper
     const ansFormWrapper = document.getElementById('form-wrapper');
     // console.log(questUrl);
     myApi.postAnswer(questUrl + '/answers', thee_answer, user.access_token)
-        .then(data => {console.log(data);
+        .then(data => {
+            console.log(data);
             if (data.message === 'Answer inserted successfully') {
                 ui.loadMessage(data.message, 'success');
                 //Reload only the specific page
@@ -430,11 +440,11 @@ function postAnswer() {
             if (data.message.answer) {
                 // console.log(data.message.answer);
                 ui.loadMessage(data.message.answer, 'error', ansFormWrapper);
-            } 
+            }
             if (data.description) {
                 // console.log(data.description);
                 ui.loadMessage(data.description, 'error');
-            } 
+            }
         })
 }
 
