@@ -26,7 +26,6 @@ class UI extends Stackoverflowapi {
                 </article>
                 `;
         });
-        // console.log(output);
         //Display the questions
         this.questionwrapper.innerHTML = output;
     }
@@ -46,7 +45,6 @@ class UI extends Stackoverflowapi {
                     ${question.author === username ? `<a class="edit-question bold" href="${this.url}/questions/${question.id}">EDIT</a>` : ''}
                 </article>
                 `;
-        // console.log(output);
         //Display the questions
         this.questionwrapper.innerHTML = output;
     }
@@ -69,8 +67,6 @@ class UI extends Stackoverflowapi {
                         </li>
                 `;
         });
-
-        // console.log(output);
         //Display the answer
         this.answerWrapper.innerHTML = output;
     }
@@ -110,7 +106,7 @@ class UI extends Stackoverflowapi {
                         <textarea name="answer" id="answer" cols="30" rows="10" >${answer.answer}</textarea>
                     </div>
                     <input type="hidden" id="answer-id" value="${answer.id}">
-                    <button type="submit" class="button button-primary" onclick=updateAnswer("${answer.answer.substring(0,5)}")>Update Answer</button>
+                    <button type="submit" class="button button-primary" onclick=updateAnswer("${answer.answer.substring(0, 5)}")>Update Answer</button>
                 </form>`;
         //Display the form
         this.formwrapper.innerHTML = output;
@@ -127,8 +123,6 @@ class UI extends Stackoverflowapi {
         //Add text
         div.appendChild(document.createTextNode(message));
         //Display the message
-        // this.mainwrapper.appendChild(div);
-
         //If an alement is provided Insert before that particular element
         //Else, insert before the main content wrapper
         if (insertBfr) {

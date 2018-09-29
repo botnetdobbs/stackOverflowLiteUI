@@ -43,11 +43,8 @@ function getaQuestion(e) {
     //Prevent from redirecting
     e.preventDefault();
     let target = e.target;
-    // console.log(target.parentElement.className);
-    // console.log(target.getAttribute('href'))
     //Use event delegation
     if (target.parentElement.className === 'description') {
-        // const url = target.parentElement.previousElementSibling.textContent;
         myApi.getQuestion(target.getAttribute('href'))
             .then(data => {
                 if (data.question.message) {
@@ -61,14 +58,12 @@ function getaQuestion(e) {
 
                 } else {
                     //Question/s found
-                    // console.log(data.question);
                     ui.loadQuestion(data.question, user.username);
                     if (data.answers.message) {
                         //Answre not found
                         console.log(data.answers.message);
                     } else {
                         //Answer found
-                        // console.log(data.answers);
                         ui.loadAnswers(data.answers, data.question, user.username);
                     }
                     ui.loadAnswerForm();
@@ -89,14 +84,12 @@ answers.addEventListener('click', (e) => {
     e.preventDefault();
 
     const target = e.target;
-    // console.log(target.className);
-    // console.log(target.getAttribute('href'));
+
     const url = target.getAttribute('href');
     if (target.classList.contains('upvote')) {
         myApi.downvoteAnswer(url, user.access_token)
             .then(data => {
                 if (data.message === 'Answer upvoted successfully') {
-                    // console.log(data.message);
                     //Get the digits from the textContent
                     let num = target.textContent.match(/\d+/g);
                     let numVal;
@@ -124,7 +117,6 @@ answers.addEventListener('click', (e) => {
         myApi.downvoteAnswer(url, user.access_token)
             .then(data => {
                 if (data.message === 'Answer downvoted successfully') {
-                    // console.log(data.message);
                     //Get the digits from the textContent
                     let num = target.textContent.match(/\d+/g);
                     let numVal;
@@ -152,7 +144,6 @@ answers.addEventListener('click', (e) => {
         myApi.markAnswerAsSolution(url, user.access_token)
             .then(data => {
                 if (data.message === "Answer marked as solution successfully") {
-                    // console.log(data.message);
                     //Get the digits from the textContent
                     const title = document.querySelector('.description-parent');
                     const textData = title.textContent;
@@ -170,7 +161,6 @@ answers.addEventListener('click', (e) => {
         myApi.delete(url, user.access_token)
             .then(data => {
                 if (data.message === 'Answer deleted successfully') {
-                    // console.log(data.message);
                     ui.loadMessage(data.message, 'success');
                     //remove the answer
                     target.parentElement.remove();
@@ -181,10 +171,8 @@ answers.addEventListener('click', (e) => {
                 }
             })
     } else if (target.classList.contains('edit')) {
-        // console.log(url);
         myApi.getAnswer(url, user.access_token)
             .then(data => {
-                // console.log(data);
                 //Load the new form for updating the answer
                 ui.loadEditAnswerPage(data);
             })
@@ -210,7 +198,6 @@ function renderAuth(e) {
         window.location.reload(true);
     } else if (target.parentElement.classList.contains('profile')) {
         //Load the profile page
-        // console.log('Profile page');
         //Pass the access_token to the method for auth
         myApi.getCurrentUserQuestions(user.access_token)
             .then(data => {
@@ -322,7 +309,6 @@ function mainPage(e) {
         const url = target.getAttribute('href');
         myApi.getQuestion(url)
             .then(data => {
-                // console.log(data.question);
                 ui.loadEditQuestionPage(data.question);
             })
     }
@@ -349,16 +335,13 @@ function postQuestion() {
             else if (data.message !== 'Question created successfully.') {
                 //Load the error message
                 if (data.message.title) {
-                    // console.log(data.message.title);
                     ui.loadMessage(data.message.title, 'error');
                 } else if (data.message.description) {
-                    // console.log(data.message.description);
                     ui.loadMessage(data.message.description, 'error');
                 } else if (data.message) {
                     ui.loadMessage(data.message, 'error');
                 }
             } else if (data.description) {
-                // console.log(data.description);
                 ui.loadMessage(data.description, 'error');
             }
         })
@@ -387,16 +370,13 @@ function updateQuestion() {
             else if (data.message) {
                 //Load the error message
                 if (data.message.title) {
-                    // console.log(data.message.title);
                     ui.loadMessage(data.message.title, 'error');
                 } else if (data.message.description) {
-                    // console.log(data.message.description);
                     ui.loadMessage(data.message.description, 'error');
                 } else if (data.message) {
                     ui.loadMessage(data.message, 'error');
                 }
             } else if (data.description) {
-                // console.log(data.description);
                 ui.loadMessage(data.description, 'error');
             }
         })
@@ -410,14 +390,12 @@ function postAnswer() {
     const thee_answer = {
         answer
     };
-    // console.log(thee_answer);
     //Get the url for the specific question
     const thee_question = document.getElementById('question-link');
     const questUrl = thee_question.getAttribute('href');
 
     //Get the form-wrapper
     const ansFormWrapper = document.getElementById('form-wrapper');
-    // console.log(questUrl);
     myApi.postAnswer(questUrl + '/answers', thee_answer, user.access_token)
         .then(data => {
             console.log(data);
@@ -438,11 +416,9 @@ function postAnswer() {
                 ui.loadMessage(data.message, 'error', ansFormWrapper);
             }
             if (data.message.answer) {
-                // console.log(data.message.answer);
                 ui.loadMessage(data.message.answer, 'error', ansFormWrapper);
             }
             if (data.description) {
-                // console.log(data.description);
                 ui.loadMessage(data.description, 'error');
             }
         })
@@ -460,12 +436,9 @@ function updateAnswer() {
     //Get the url for the specific question
     const thee_question = document.getElementById('question-link');
     const questUrl = thee_question.getAttribute('href');
-    // console.log(questUrl);
     myApi.updateAnswer(questUrl + `/answers/${answer_id}`, thee_answer, user.access_token)
         .then(data => {
             if (data.message === 'Your answer updated successfully') {
-                //Load the success message
-                // ui.loadMessage(data.message, 'success');
                 //Actions after 1 second
                 setTimeout(() => {
                     //Restore form for posting an answer
@@ -480,11 +453,9 @@ function updateAnswer() {
                 ui.loadMessage(data.message, 'error');
             }
             if (data.message.answer) {
-                // console.log(data.message.answer);
                 ui.loadMessage(data.message.answer, 'error');
             }
             if (data.description) {
-                // console.log(data.description);
                 ui.loadMessage(data.description, 'error');
             }
         })

@@ -24,23 +24,6 @@ class Stackoverflowapi {
 
     //Get a single question
     async getQuestion(url) {
-        // return new Promise((resolve, reject) => {
-        //     fetch(url)
-        //         .then(response => {return response.json();})
-        //         .then(data => {
-        //             resolve(data);
-        //         })
-        //         .catch(err => reject(err));
-        // });
-        // return new Promise((resolve, reject) => {
-        //     fetch(url+'/answers')
-        //         .then(response => {return response.json();})
-        //         .then(data => {
-        //             resolve(data);
-        //         })
-        //         .catch(err => reject(err));
-        // });
-
         //Use async await
         const questionResponse = await fetch(url);
         const answerResponse = await fetch(url + '/answers');
@@ -60,13 +43,13 @@ class Stackoverflowapi {
     postQuestion(question, access_token) {
         return new Promise((resolve, reject) => {
             fetch(this.url + '/questions', {
-                    method: 'POST',
-                    headers: {
-                        'Content-Type': 'application/json',
-                        'Authorization': `JWT ${access_token}`
-                    },
-                    body: JSON.stringify(question)
-                })
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                    'Authorization': `JWT ${access_token}`
+                },
+                body: JSON.stringify(question)
+            })
                 .then(response => {
                     return response.json();
                 })
@@ -80,13 +63,13 @@ class Stackoverflowapi {
     updateQuestion(question, question_id, access_token) {
         return new Promise((resolve, reject) => {
             fetch(this.url + '/questions/' + question_id, {
-                    method: 'PUT',
-                    headers: {
-                        'Content-Type': 'application/json',
-                        'Authorization': `JWT ${access_token}`
-                    },
-                    body: JSON.stringify(question)
-                })
+                method: 'PUT',
+                headers: {
+                    'Content-Type': 'application/json',
+                    'Authorization': `JWT ${access_token}`
+                },
+                body: JSON.stringify(question)
+            })
                 .then(response => {
                     return response.json();
                 })
@@ -100,13 +83,13 @@ class Stackoverflowapi {
     postAnswer(url, answer, access_token) {
         return new Promise((resolve, reject) => {
             fetch(url, {
-                    method: 'POST',
-                    headers: {
-                        'Authorization': `JWT ${access_token}`,
-                        'Content-Type': 'application/json'
-                    },
-                    body: JSON.stringify(answer)
-                })
+                method: 'POST',
+                headers: {
+                    'Authorization': `JWT ${access_token}`,
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify(answer)
+            })
                 .then(response => response.json())
                 .then(data => resolve(data))
                 .catch(err => reject(err));
@@ -117,13 +100,13 @@ class Stackoverflowapi {
     getAnswer(url) {
         return new Promise((resolve, reject) => {
             fetch(url)
-            .then(response => {
-                return response.json();
-            })
-            .then(data => {
-                resolve(data);
-            })
-            .catch(err => reject(err));
+                .then(response => {
+                    return response.json();
+                })
+                .then(data => {
+                    resolve(data);
+                })
+                .catch(err => reject(err));
         })
     }
 
@@ -131,11 +114,11 @@ class Stackoverflowapi {
     upvoteAnswer(url, access_token) {
         return new Promise((resolve, reject) => {
             fetch(url, {
-                    method: 'PUT',
-                    headers: {
-                        'Authorization': `JWT ${access_token}`
-                    }
-                })
+                method: 'PUT',
+                headers: {
+                    'Authorization': `JWT ${access_token}`
+                }
+            })
                 .then(response => {
                     return response.status;
                 })
@@ -150,11 +133,11 @@ class Stackoverflowapi {
     downvoteAnswer(url, access_token) {
         return new Promise((resolve, reject) => {
             fetch(url, {
-                    method: 'PUT',
-                    headers: {
-                        'Authorization': `JWT ${access_token}`
-                    }
-                })
+                method: 'PUT',
+                headers: {
+                    'Authorization': `JWT ${access_token}`
+                }
+            })
                 .then(response => {
                     return response.json();
                 })
@@ -168,11 +151,11 @@ class Stackoverflowapi {
     markAnswerAsSolution(url, access_token) {
         return new Promise((resolve, reject) => {
             fetch(url, {
-                    method: 'PUT',
-                    headers: {
-                        'Authorization': `JWT ${access_token}`
-                    }
-                })
+                method: 'PUT',
+                headers: {
+                    'Authorization': `JWT ${access_token}`
+                }
+            })
                 .then(response => {
                     return response.json();
                 })
@@ -186,13 +169,13 @@ class Stackoverflowapi {
     updateAnswer(url, answer, access_token) {
         return new Promise((resolve, reject) => {
             fetch(url, {
-                    method: 'PUT',
-                    headers: {
-                        'Authorization': `JWT ${access_token}`,
-                        'Content-Type': 'application/json'
-                    },
-                    body: JSON.stringify(answer)
-                })
+                method: 'PUT',
+                headers: {
+                    'Authorization': `JWT ${access_token}`,
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify(answer)
+            })
                 .then(response => {
                     return response.json();
                 })
@@ -206,11 +189,11 @@ class Stackoverflowapi {
     delete(url, access_token) {
         return new Promise((resolve, reject) => {
             fetch(url, {
-                    method: 'DELETE',
-                    headers: {
-                        'Authorization': `JWT ${access_token}`
-                    }
-                })
+                method: 'DELETE',
+                headers: {
+                    'Authorization': `JWT ${access_token}`
+                }
+            })
                 .then(response => response.json())
                 .then(data => resolve(data))
                 .catch(err => reject(err));
@@ -220,14 +203,13 @@ class Stackoverflowapi {
     getCurrentUserQuestions(access_token) {
         return new Promise((resolve, reject) => {
             fetch(this.url + '/user/questions', {
-                    headers: {
-                        'Authorization': `JWT ${access_token}`
-                    }
-                })
+                headers: {
+                    'Authorization': `JWT ${access_token}`
+                }
+            })
                 .then(response => response.json())
                 .then(data => resolve(data))
                 .catch(error => reject(error));
         });
     }
-
 }

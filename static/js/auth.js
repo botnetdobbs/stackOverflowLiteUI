@@ -1,7 +1,6 @@
 class Auth extends Stackoverflowapi {
     constructor() {
         super();
-        this.access_token = Auth.getAccessToken();
     }
 
     register(user) {
