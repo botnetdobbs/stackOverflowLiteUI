@@ -214,6 +214,23 @@ function registerUser() {
     const email = document.getElementById('email').value;
     const password = document.getElementById('password').value;
 
+    //Add frontend validation for the username
+    const usernameRegex = /^([a-z\d]+-)*[a-z\d]+$/i;
+
+    if (username === "") {
+        ui.loadMessage('Username is required', 'error', document.querySelector('.login-reg'));
+        return false;
+    } else if (!usernameRegex.test(username)) {
+        ui.loadMessage('The username contains illegal characters', 'error', document.querySelector('.login-reg'));
+        return false;
+    } else if (username.length < 3 || username.length > 10) {
+        ui.loadMessage('The username must not be less than 3  or more than 9 characters', 'error', document.querySelector('.login-reg'));
+        return false;
+    } else if (!username[0].match(/[a-z]/i)) {
+        ui.loadMessage('The username must begin with a letter', 'error', document.querySelector('.login-reg'));
+        return false;
+    }
+
     //Create a user object
     const user = {
         username,
