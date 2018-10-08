@@ -58,8 +58,8 @@ class UI extends Stackoverflowapi {
             output += `<li class="answers">
                             <div>
                                 <p class="description-parent"><h3>${answer.solved === 1 ? '[SOLUTION]' : ''}<em>${username === answer.author ? 'You say' : answer.author + ' says'}</em>:  </h3><p id="answerdesc">${answer.answer}</p></p>
-                                <a class="items upvote" id="upvote" href="${this.url}/questions/${answer.question_id}/answers/${answer.id}/upvote">Upvote(${answer.upvotes}) |</a>
-                                <a class="items downvote" id="downvote" href="${this.url}/questions/${answer.question_id}/answers/${answer.id}/downvote">Downvote(${answer.downvotes}) |</a>
+                                ${answer.author !== username ? `<a class="items upvote" id="upvote" href="${this.url}/questions/${answer.question_id}/answers/${answer.id}/upvote">Upvote(${answer.upvotes}) |</a>`:''}
+                                ${answer.author !== username ? `<a class="items downvote" id="downvote" href="${this.url}/questions/${answer.question_id}/answers/${answer.id}/downvote">Downvote(${answer.downvotes}) |</a>`:''}
                                 ${question.author === username ? `<a class="items solve" id="solve" href="${this.url}/questions/${answer.question_id}/answers/${answer.id}/solved">Mark as Solution |</a>` : ''}
                                 ${answer.author === username ? `<a class="items delete" id="delete" href="${this.url}/questions/${answer.question_id}/answers/${answer.id}">Delete |</a>` : ''}
                                 ${answer.author === username ? `<a class="items edit" id="edit" href="${this.url}/questions/${answer.question_id}/answers/${answer.id}">Edit</a>` : ''}
