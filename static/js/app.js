@@ -217,8 +217,8 @@ function registerUser() {
     //Add frontend validation for the username
     const usernameRegex = /^([a-z\d]+-)*[a-z\d]+$/i;
 
-    if (username === "") {
-        ui.loadMessage('Username is required', 'error', document.querySelector('.login-reg'));
+    if (username === "" && email === "" && password === "") {
+        ui.loadMessage('The fields are required', 'error', document.querySelector('.login-reg'));
         return false;
     } else if (!usernameRegex.test(username)) {
         ui.loadMessage('The username contains illegal characters', 'error', document.querySelector('.login-reg'));
@@ -336,6 +336,29 @@ function postQuestion() {
     //Get the values        
     const title = document.getElementById('title').value;
     const description = document.getElementById('question-description').value;
+    //Add frontend validation for the title
+    if (title === '' && description === '') {
+        ui.loadMessage('title and description fields required', 'error', document.querySelector('#form-wrapper'));
+        return false;
+    }
+    if (title === "") {
+        ui.loadMessage('title is required', 'error', document.querySelector('#form-wrapper'));
+        return false;
+    } else if (title.length < 3 || title.length > 30) {
+        ui.loadMessage('The title must not be less than 3  or more than30     characters', 'error', document.querySelector('#form-wrapper'));
+        return false;
+    }
+    //Add frontend validation for the description
+    if (description === "") {
+        ui.loadMessage('description is required', 'error', document.querySelector('#form-wrapper'));
+        return false;
+    } else if (description.length < 3 || description.length > 300) {
+        ui.loadMessage('The description must not be less than 3  or more than 300     characters', 'error', document.querySelector('#form-wrapper'));
+        return false;
+    } else if (!description[0].match(/[a-z]/i)) {
+        ui.loadMessage('The description must begin with a letter', 'error', document.querySelector('#form-wrapper'));
+        return false;
+    }
     //Create a user object
     const question = {
         title,
@@ -403,6 +426,19 @@ function updateQuestion() {
 function postAnswer() {
     //Get the values        
     const answer = document.getElementById('answer').value;
+    //Add frontend validation for the answers
+    const answerRegex = /[a-z\s]{0,255}/;
+
+    if (answer === "") {
+        ui.loadMessage('answer is required', 'error', document.querySelector('#form-wrapper'));
+        return false;
+    } else if (answer.length < 3 || answer.length > 255) {
+        ui.loadMessage('The answer must not be less than 3  or more than 255     characters', 'error', document.querySelector('#form-wrapper'));
+        return false;
+    } else if (!answer[0].match(/[a-z]/i)) {
+        ui.loadMessage('The answer must begin with a letter', 'error', document.querySelector('#form-wrapper'));
+        return false;
+    }
     //Create an answer object
     const thee_answer = {
         answer
@@ -461,8 +497,8 @@ function updateAnswer() {
                     //Restore form for posting an answer
                     ui.loadAnswerForm();
                     //Update the answer without reloading
-                    const comment = document.getElementById('answerdesc');
-                    comment.innerHTML = answer;
+                    myApi.getQuestion(questUrl)
+                        .then(data => { ui.loadAnswers(data.answers, data.question, user.username); });
                 }, 1000);
             } //Display errors
             if (data.message !== 'Your answer updated successfully') {
