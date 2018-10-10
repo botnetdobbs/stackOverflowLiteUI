@@ -106,7 +106,7 @@ class UI extends Stackoverflowapi {
                         <textarea name="answer" id="answer" cols="30" rows="10" >${answer.answer}</textarea>
                     </div>
                     <input type="hidden" id="answer-id" value="${answer.id}">
-                    <button type="submit" class="button button-primary" onclick=updateAnswer("${answer.answer.substring(0, 5)}")>Update Answer</button>
+                    <button type="submit" class="button button-primary" onclick=updateAnswer()>Update Answer</button>
                 </form>`;
         //Display the form
         this.formwrapper.innerHTML = output;
