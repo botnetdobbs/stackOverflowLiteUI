@@ -22,7 +22,7 @@ class UI extends Stackoverflowapi {
             output += `
                 <article class="question">
                     <h4>Posted by <small>${question.author}</small></h4>
-                    <h1 class="description"><a href="${this.url}/questions/${question.id}">${question.description} [${question.title}]</a></h1>
+                    <h1 class="description"><a href="/questions/${question.id}">${question.description} [${question.title}]</a></h1>
                 </article>
                 `;
         });
@@ -39,7 +39,7 @@ class UI extends Stackoverflowapi {
                 <article class="question">
                     <h4>Posted by <small>${question.author}</small></h4>
                     <h1 class="description">${question.description} [${question.title}]</h1>
-                    <a href="${this.url}/questions/${question.id}" id="question-link">This should not be displayed</a>
+                    <a href="/questions/${question.id}" id="question-link">This should not be displayed</a>
                     
                     ${question.author === username ? `<a class="delete-question bold" href="${this.url}/questions/${question.id}">DELETE</a>` : ''}
                     ${question.author === username ? `<a class="edit-question bold" href="${this.url}/questions/${question.id}">EDIT</a>` : ''}
@@ -54,19 +54,19 @@ class UI extends Stackoverflowapi {
         //Create a variable to store the answers
         let output = '';
         //Loop through each answer adding it to the output variable
-        answers.forEach(answer => {
+        answers ? answers.forEach(answer => {
             output += `<li class="answers">
                             <div>
                                 <p class="description-parent"><h3>${answer.solved === 1 ? '[SOLUTION]' : ''}<em>${username === answer.author ? 'You say' : answer.author + ' says'}</em>:  </h3><p id="answerdesc">${answer.answer}</p></p>
-                                ${answer.author !== username ? `<a class="items upvote" id="upvote" href="${this.url}/questions/${answer.question_id}/answers/${answer.id}/upvote">Upvote(${answer.upvotes}) |</a>`:''}
-                                ${answer.author !== username ? `<a class="items downvote" id="downvote" href="${this.url}/questions/${answer.question_id}/answers/${answer.id}/downvote">Downvote(${answer.downvotes}) |</a>`:''}
-                                ${question.author === username ? `<a class="items solve" id="solve" href="${this.url}/questions/${answer.question_id}/answers/${answer.id}/solved">Mark as Solution |</a>` : ''}
-                                ${answer.author === username ? `<a class="items delete" id="delete" href="${this.url}/questions/${answer.question_id}/answers/${answer.id}">Delete |</a>` : ''}
-                                ${answer.author === username ? `<a class="items edit" id="edit" href="${this.url}/questions/${answer.question_id}/answers/${answer.id}">Edit</a>` : ''}
+                                ${answer.author !== username ? `<a class="items upvote" id="upvote" href="/questions/${answer.question_id}/answers/${answer.id}/upvote">Upvote(${answer.upvotes}) |</a>`:''}
+                                ${answer.author !== username ? `<a class="items downvote" id="downvote" href="/questions/${answer.question_id}/answers/${answer.id}/downvote">Downvote(${answer.downvotes}) |</a>`:''}
+                                ${question.author === username ? `<a class="items solve" id="solve" href="/questions/${answer.question_id}/answers/${answer.id}/solved">Mark as Solution |</a>` : ''}
+                                ${answer.author === username ? `<a class="items delete" id="delete" href="/questions/${answer.question_id}/answers/${answer.id}">Delete |</a>` : ''}
+                                ${answer.author === username ? `<a class="items edit" id="edit" href="/questions/${answer.question_id}/answers/${answer.id}">Edit</a>` : ''}
                             </div>
                         </li>
                 `;
-        });
+        }) : '';
         //Display the answer
         this.answerWrapper.innerHTML = output;
     }
